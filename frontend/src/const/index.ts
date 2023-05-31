@@ -13,4 +13,4 @@ export const UrlShortenerSchema = Yup.object().shape({
 });
 
 export const CONTRACT_ADDRESS =
-  "5GdHQQkRHvEEE4sDkcLkxCCumSkw2SFBJSLKzbMTNARLTXz3";
+  "XFAFq5KCCynxJvhJuHn9nKn3VuZ1AuwEetyNYYAXwyqPJab";

@@ -16,6 +16,11 @@ interface LinkContractState {
 export const LinkContractContext = createContext<LinkContractState>({});
 
 export function LinkContractProvider({ children }: PropsWithChildren) {
+  // const link = useContract(CONTRACT_ADDRESS, metadata);
+  // const shortenDryRun = useDryRun<ShorteningResult>(link, 'shorten');
+  // const shorten = useTx(link, 'shorten');
+  // useTxNotifications(shorten);
+  // const resolve = useCall<ResolvedUrl>(link, 'resolve');
   const link = useContract(CONTRACT_ADDRESS, metadata);
   const shortenDryRun = useDryRun<ShorteningResult>(link, 'shorten');
   const shorten = useTx(link, 'shorten');

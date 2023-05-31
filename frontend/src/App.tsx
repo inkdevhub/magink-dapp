@@ -1,5 +1,4 @@
 import "./App.css";
-import Resolver from "./Resolver";
 import { Routes, Route } from "react-router-dom";
 import { FormContainer, Loader } from "./components";
 import { useLinkContract } from "./hooks";
@@ -12,7 +11,6 @@ function App() {
   return (
     <Routes>
       <Route index element={<FormContainer />} />
-      <Route path=":slug" element={<Resolver />} />
     </Routes>
   );
 }
