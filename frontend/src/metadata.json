@@ -1,7 +1,6 @@
-
 {
   "source": {
-    "hash": "0x109bcdbb4e4131b037ee6eeeb835fcaf5d8066cde3e1541143f433bbff24e797",
+    "hash": "0x2d07c10bb840103b4315df91227be86339fbc0dcceb8cea8b6181bc2e6f7e248",
     "language": "ink! 4.2.0",
     "compiler": "rustc 1.69.0",
     "build_info": {
@@ -106,7 +105,7 @@
         "docs": [
           " Set the eras of the Tamagotchink smart contract."
         ],
-        "label": "Tamagotchi::start",
+        "label": "start",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -116,7 +115,7 @@
           ],
           "type": 2
         },
-        "selector": "0xccd91fa3"
+        "selector": "0x3c1e3986"
       },
       {
         "args": [],
@@ -124,7 +123,7 @@
         "docs": [
           " Water the plant"
         ],
-        "label": "Tamagotchi::water",
+        "label": "water",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -134,7 +133,7 @@
           ],
           "type": 2
         },
-        "selector": "0xf1876858"
+        "selector": "0xb69259b6"
       },
       {
         "args": [],
@@ -142,7 +141,7 @@
         "docs": [
           " Returns the current value of the Tamagotchink's boolean."
         ],
-        "label": "Tamagotchi::get_water",
+        "label": "get_water",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -152,7 +151,7 @@
           ],
           "type": 5
         },
-        "selector": "0x3528af2d"
+        "selector": "0x519c67bc"
       }
     ]
   },

@@ -4,9 +4,9 @@ import { FormContainer, Loader } from "./components";
 import { useLinkContract } from "./hooks";
 
 function App() {
-  const { link } = useLinkContract();
+  const { tamagotchink } = useLinkContract();
 
-  if (!link) return <Loader message="Loading app..." />
+  if (!tamagotchink) return <Loader message="Loading app..." />
 
   return (
     <Routes>

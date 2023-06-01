@@ -11,7 +11,7 @@ import { hasAny } from "useink/utils";
 export const FormContainer = () => {
   const submitFn = useSubmitHandler();
   const { showConnectWallet, setShowConnectWallet } = useUI();
-  const { shorten } = useLinkContract();
+  const { water } = useLinkContract();
 
   return (
     <div className="App">
@@ -28,14 +28,16 @@ export const FormContainer = () => {
           status: { finalized, events, slug, errorMessage } = {},
           isSubmitting,
         }) => {
-          return isSubmitting && shorten && !hasAny(shorten, 'PendingSignature', 'None') ? (
+          return isSubmitting && water && !hasAny(water, 'PendingSignature', 'None') ? (
             <Loader message="Submitting transaction..." />
           ) : (
             <>
               <Header />
               <div className="content">
                 <div className="form-panel">
-                  <img src={linkLogo} className="link-logo" alt="logo" />{" "}
+                  {/* <img src={linkLogo} className="link-logo" alt="logo" />{" "} */}
+                  <h2>Tamagotchink!</h2>
+                  <h2>.</h2>
                   {finalized ? (
                     <SubmitResult
                       events={events}

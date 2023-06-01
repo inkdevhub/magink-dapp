@@ -1,6 +1,5 @@
 export interface Values {
-  url: string;
-  alias: string;
+  blocksToLive: number;
 }
 
 export interface UIEvent {

@@ -5,19 +5,21 @@ import { decodeError } from "useink/core";
 import { useLinkContract } from "./useLinkContract";
 
 export const useSubmitHandler = () => {
-  const { shorten, shortenDryRun, link } = useLinkContract();
+  const { water, waterDryRun, tamagotchink } = useLinkContract();
   
   return async (
     values: Values,
     { setSubmitting, setStatus }: FormikHelpers<Values>
   ) => {
-    const isDryRunSuccess = 'Shortened' === pickDecoded(shortenDryRun?.result);
+    // const isDryRunSuccess = 'Shortened' === pickDecoded(waterDryRun?.result);
+    console.log("waterDryRun", pickDecoded(waterDryRun?.result))
+    const isDryRunSuccess = true;
     if (!isDryRunSuccess) return;
 
-    const shortenArgs = [{ DeduplicateOrNew: values.alias }, values.url];
+    const waterArgs = [values.blocksToLive];
     const options = undefined;
 
-    shorten?.signAndSend(shortenArgs, options, (result, _api, error) => {
+    water?.signAndSend(waterArgs, options, (result, _api, error) => {
       if (error) {
         console.error(JSON.stringify(error));
         setSubmitting(false);
@@ -54,10 +56,10 @@ export const useSubmitHandler = () => {
         }
       });
 
-      const dispatchError = shorten.result?.dispatchError;
+      const dispatchError = water.result?.dispatchError;
 
-      if (dispatchError && link?.contract) {
-        const errorMessage = decodeError(dispatchError, link, undefined, 'Something went wrong') ;
+      if (dispatchError && tamagotchink?.contract) {
+        const errorMessage = decodeError(dispatchError, tamagotchink, undefined, 'Something went wrong') ;
         setStatus({ finalized: true, events, errorMessage })
       }
 

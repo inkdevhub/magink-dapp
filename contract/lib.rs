@@ -8,16 +8,6 @@ pub mod tamagotchink {
         start_block: u32,
     }
 
-    #[ink::trait_definition]
-    pub trait Tamagotchi {
-        #[ink(message)]
-        fn start(&mut self, eras: u8);
-        #[ink(message)]
-        fn water(&mut self);
-        #[ink(message)]
-        fn get_water(&self) -> u8;
-    }
-
     impl Tamagotchink {
         /// Creates a new Tamagotchink smart contract.
         #[ink(constructor)]
@@ -27,24 +17,23 @@ pub mod tamagotchink {
                 start_block: 0,
             }
         }
-    }
-    impl Tamagotchi for Tamagotchink {
+
         /// Set the eras of the Tamagotchink smart contract.
         #[ink(message)]
-        fn start(&mut self, life_span: u8) {
+        pub fn start(&mut self, life_span: u8) {
             self.blocks_to_live = life_span;
             self.start_block = self.env().block_number();
         }
-        
+
         /// Water the plant
         #[ink(message)]
-        fn water(&mut self) {
+        pub fn water(&mut self) {
             self.start_block = self.env().block_number();
         }
 
         /// Returns the current value of the Tamagotchink's boolean.
         #[ink(message)]
-        fn get_water(&self) -> u8 {
+        pub fn get_water(&self) -> u8 {
             let current_block = self.env().block_number();
             if current_block - self.start_block >= self.blocks_to_live as u32 {
                 return 0;
@@ -62,7 +51,7 @@ pub mod tamagotchink {
             let mut tamagotchink = Tamagotchink::new();
             println!("get {:?}", tamagotchink.get_water());
             tamagotchink.start(10);
-            println!("get {:?}", tamagotchink.get_water());
+            assert_eq!(10, tamagotchink.get_water());
         }
     }
 
@@ -83,22 +72,22 @@ pub mod tamagotchink {
                 .expect("instantiate failed")
                 .account_id;
 
-            let get =
-                build_message::<TamagotchinkRef>(contract_acc_id.clone()).call(|tamagotchink| tamagotchink.get());
+            let get = build_message::<TamagotchinkRef>(contract_acc_id.clone())
+                .call(|tamagotchink| tamagotchink.get());
             let get_res = client.call_dry_run(&ink_e2e::bob(), &get, 0, None).await;
             assert!(matches!(get_res.return_value(), false));
 
             // when
-            let flip =
-                build_message::<TamagotchinkRef>(contract_acc_id.clone()).call(|tamagotchink| tamagotchink.flip());
+            let flip = build_message::<TamagotchinkRef>(contract_acc_id.clone())
+                .call(|tamagotchink| tamagotchink.flip());
             let _flip_res = client
                 .call(&ink_e2e::bob(), flip, 0, None)
                 .await
                 .expect("flip failed");
 
             // then
-            let get =
-                build_message::<TamagotchinkRef>(contract_acc_id.clone()).call(|tamagotchink| tamagotchink.get());
+            let get = build_message::<TamagotchinkRef>(contract_acc_id.clone())
+                .call(|tamagotchink| tamagotchink.get());
             let get_res = client.call_dry_run(&ink_e2e::bob(), &get, 0, None).await;
             assert!(matches!(get_res.return_value(), true));
 
@@ -118,8 +107,8 @@ pub mod tamagotchink {
                 .account_id;
 
             // then
-            let get =
-                build_message::<TamagotchinkRef>(contract_acc_id.clone()).call(|tamagotchink| tamagotchink.get());
+            let get = build_message::<TamagotchinkRef>(contract_acc_id.clone())
+                .call(|tamagotchink| tamagotchink.get());
             let get_res = client.call_dry_run(&ink_e2e::bob(), &get, 0, None).await;
             assert!(matches!(get_res.return_value(), false));
 

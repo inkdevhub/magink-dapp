@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { Values } from "../types";
 import { pseudoRandomId } from "useink/utils";
 
-export const initialValues: Values = { url: "", alias: pseudoRandomId(5) };
+export const initialValues: Values = { blocksToLive: 10 };
 
 export const UrlShortenerSchema = Yup.object().shape({
   url: Yup.string().url().required("URL is a required field"),
@@ -13,4 +13,4 @@ export const UrlShortenerSchema = Yup.object().shape({
 });
 
 export const CONTRACT_ADDRESS =
-  "XFAFq5KCCynxJvhJuHn9nKn3VuZ1AuwEetyNYYAXwyqPJab";
+  "bGMxiu9q9JQX2KtdeLjVdxErq3XkDVYyJ48BMC6vYGXWQ56";
