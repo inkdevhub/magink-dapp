@@ -6,6 +6,7 @@ import { useLinkContract, useUI } from '../hooks';
 import { pickDecodedError } from 'useink/utils';
 import { useWallet } from 'useink';
 import { Button } from './Button';
+import { Gallery } from './Gallery';
 
 
 interface Props {
@@ -27,7 +28,7 @@ export const UrlShortenerForm = ({ awake, isAwake, waterLevel, runtimeError }: P
       <div className="group">
         {account && !isAwake && (
           <Button type="button" disabled={isSubmitting || !isValid} onClick={awake}>
-            Awake Tamagotchi
+            Start
           </Button>
         )}
       </div>

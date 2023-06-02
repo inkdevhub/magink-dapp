@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { decodeError } from 'useink/core';
 
 export const FormContainer = () => {
-  const { waterDryRun, tamagotchink, start, getWater } = useLinkContract();
+  const { waterDryRun, magink, start, getWater } = useLinkContract();
   const submitFn = useSubmitHandler();
   const { showConnectWallet, setShowConnectWallet } = useUI();
   const { water } = useLinkContract();
@@ -61,8 +61,8 @@ export const FormContainer = () => {
       }
       const dispatchError = start.result?.dispatchError;
 
-      if (dispatchError && tamagotchink?.contract) {
-        const errorMessage = decodeError(dispatchError, tamagotchink, undefined, 'Something went wrong');
+      if (dispatchError && magink?.contract) {
+        const errorMessage = decodeError(dispatchError, magink, undefined, 'Something went wrong');
         console.log('errorMessage', errorMessage);
       }
     });
