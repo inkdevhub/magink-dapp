@@ -79,6 +79,19 @@ pub mod magink {
             })
         }
 
+        /// Returns the remaining blocks in the era for the given account.
+        #[ink(message)]
+        pub fn get_remaining_for(&self, account: AccountId) -> u8 {
+
+            let current_block = self.env().block_number();
+            self.user.get(&account).map_or(0, |profile| {
+                if current_block - profile.start_block >= profile.claim_era as u32 {
+                    return 0;
+                }
+                profile.claim_era - (current_block - profile.start_block) as u8
+            })
+        }
+
         /// Returns the profile of the given account.
         #[ink(message)]
         pub fn get_account_profile(&self, account: AccountId) -> Option<Profile> {

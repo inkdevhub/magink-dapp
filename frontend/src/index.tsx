@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
-import { LinkContractProvider, UIProvider } from "./contexts";
+import { MaginkContractProvider, UIProvider } from "./contexts";
 import { InkConfig, UseInkProvider } from "useink";
 import { Astar, Development, RococoContractsTestnet, ShibuyaTestnet } from 'useink/chains';
 import { NotificationsProvider } from "useink/notifications";
@@ -11,7 +11,7 @@ import { Notifications } from "./components/Notifications";
 
 const config: InkConfig = {
   config: {
-    dappName: "link!",
+    dappName: "magink!",
     chains: [ShibuyaTestnet],
     caller: {
       default: "5EyR7vEk7DtvEWeefGcXXMV6hKwB8Ex5uvjHufm466mbjJkR",
@@ -29,10 +29,10 @@ root.render(
       <UseInkProvider {...config}>
         <NotificationsProvider>
           <UIProvider>
-            <LinkContractProvider>
+            <MaginkContractProvider>
               <App />
               <Notifications />
-            </LinkContractProvider>
+            </MaginkContractProvider>
           </UIProvider>
         </NotificationsProvider>
       </UseInkProvider>

@@ -1,2 +1,2 @@
-export * from "./LinkContract";
+export * from "./MaginkContract";
 export * from "./UIContext";

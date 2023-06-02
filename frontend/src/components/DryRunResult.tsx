@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Values } from "../types";
-import { useLinkContract } from "../hooks";
+import { useMaginkContract } from "../hooks";
 import { pickDecoded, pickTxInfo } from "useink/utils";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function DryRunResult({ values }: Props) {
-  const { startDryRun } = useLinkContract();
+  const { startDryRun } = useMaginkContract();
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {

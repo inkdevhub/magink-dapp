@@ -1,28 +1,28 @@
 import { Values, UIEvent, TransferredBalanceEvent } from "../types";
 import { FormikHelpers } from "formik";
-import { pickDecoded } from "useink/utils";
+import { pickDecoded, pickError } from "useink/utils";
 import { decodeError } from "useink/core";
-import { useLinkContract } from "./useLinkContract";
+import { useMaginkContract } from "./useMaginkContract";
 
 export const useSubmitHandler = () => {
-  const { water, waterDryRun, magink } = useLinkContract();
+  const { claim, claimDryRun, magink } = useMaginkContract();
   
   return async (
     values: Values,
     { setSubmitting, setStatus }: FormikHelpers<Values>
   ) => {
-    // const isDryRunSuccess = 'Shortened' === pickDecoded(waterDryRun?.result);
-    // console.log("enter Submit");
-    // const dr = pickDecoded(waterDryRun?.result);
-    // console.log("waterDryRun", dr);
-    const isDryRunSuccess = true;
+    const isDryRunSuccess = null === pickDecoded(claimDryRun?.result);
+    console.log("submit error", pickError(claimDryRun?.result));
+    const dr = pickDecoded(claimDryRun?.result);
+    console.log("claimDryRun", dr);
+    // const isDryRunSuccess = true;
     if (!isDryRunSuccess) return;
-    console.log("send water Tx")
+    console.log("send claim Tx")
 
-    const waterArgs = [];
+    const claimArgs = [];
     const options = undefined;
 
-    water?.signAndSend(undefined, options, (result, _api, error) => {
+    claim?.signAndSend(undefined, options, (result, _api, error) => {
       if (error) {
         console.error(JSON.stringify(error));
         setSubmitting(false);
@@ -59,7 +59,7 @@ export const useSubmitHandler = () => {
         }
       });
 
-      const dispatchError = water.result?.dispatchError;
+      const dispatchError = claim.result?.dispatchError;
 
       if (dispatchError && magink?.contract) {
         const errorMessage = decodeError(dispatchError, magink, undefined, 'Something went wrong') ;

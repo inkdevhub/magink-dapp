@@ -21,7 +21,7 @@ export const Gallery = ({ level }: Props) => {
     const achievedGallery: Array<string> = fullGallery.slice(0, level);
 
     const GalleryItems = () => {
-        const listItem = achievedGallery.map((item) => <div className="w-1/3"><img src={item} alt="achievement"></img></div>);
+        const listItem = achievedGallery.map((item) => <div className="w-1/3" key={item}><img src={item} alt="achievement"></img></div>);
         return <>{listItem}</>;
     };
 

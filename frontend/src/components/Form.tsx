@@ -2,7 +2,7 @@ import { Form, useFormikContext } from 'formik';
 import { Values } from '../types';
 import { useState } from 'react';
 import { NewUserGuide } from './NewUserGuide';
-import { useLinkContract, useUI } from '../hooks';
+import { useMaginkContract, useUI } from '../hooks';
 import { pickDecodedError } from 'useink/utils';
 import { useWallet } from 'useink';
 import { Button } from './Button';
@@ -13,17 +13,19 @@ import { DryRunResult } from './DryRunResult';
 interface Props {
   awake: () => void;
   isAwake: boolean;
-  waterLevel: number;
+  remainingBlocks: number;
   runtimeError?: any;
 }
 
-export const MaginkForm = ({ awake, isAwake, waterLevel, runtimeError }: Props) => {
+export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError }: Props) => {
   const { isSubmitting, isValid, values, setFieldTouched, handleChange } = useFormikContext<Values>();
-  const { waterDryRun, magink, start, getWater } = useLinkContract();
+  const { claimDryRun, magink, start, getRemaining } = useMaginkContract();
   const { account } = useWallet();
   const { setShowConnectWallet } = useUI();
-  const [txMessage, setTxMessage] = useState<string>('');
 
+  if (runtimeError != undefined) {  
+    console.log('----------------Form getRemaining runtimeError', runtimeError);
+  }
   return (
     <Form>
       <div className="group">
@@ -35,7 +37,7 @@ export const MaginkForm = ({ awake, isAwake, waterLevel, runtimeError }: Props) 
       </div>
 
       <div className="group">
-        Claim a new badge after {" "}{waterLevel}{" "} blocks
+        Claim a new badge after {" "}{remainingBlocks}{" "} blocks
       </div>
 
       <div className="group">
@@ -58,12 +60,10 @@ export const MaginkForm = ({ awake, isAwake, waterLevel, runtimeError }: Props) 
       </div>
       <Gallery level={9}/>
 
-      <div className="text-xs text-left mb-2 text-purple-500">{txMessage}</div>
-
       {runtimeError && magink && (
         <div className="text-xs text-left mb-2 text-red-500">
           {pickDecodedError(
-            waterDryRun,
+            claimDryRun,
             magink,
             {
               ContractTrapped: 'Unable to complete transaction.',

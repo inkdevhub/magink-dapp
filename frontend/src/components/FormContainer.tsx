@@ -1,64 +1,56 @@
 import linkLogo from '../link-logo.svg';
 import { Formik } from 'formik';
 import { initialValues } from '../const';
-import { useLinkContract, useSubmitHandler, useUI } from '../hooks';
+import { useMaginkContract, useSubmitHandler, useUI } from '../hooks';
 import { MaginkForm } from './Form';
 import { Header } from './Header';
 import { SubmitResult } from './SubmitResult';
 import { ConnectWallet, Loader } from '.';
-import { hasAny, pickError } from 'useink/utils';
+import { hasAny, pickDecoded, pickError } from 'useink/utils';
 import { useEffect, useState } from 'react';
 import { decodeError } from 'useink/core';
+import { useWallet } from 'useink';
 
 export const FormContainer = () => {
-  const { waterDryRun, magink, start, getWater } = useLinkContract();
+  const { claimDryRun, magink, start, getRemaining, getRemainingFor } = useMaginkContract();
   const submitFn = useSubmitHandler();
+  const { account } = useWallet();
   const { showConnectWallet, setShowConnectWallet } = useUI();
-  const { water } = useLinkContract();
+  const { claim } = useMaginkContract();
   const [isAwake, setIsAwake] = useState(false);
-  const [waterLevel, setWaterLevel] = useState<number>(0);
+  const [remainingBlocks, setRemainingBlocks] = useState<number>(0);
 
   var runtimeError: any; // TODO check this
 
   useEffect(() => {
     const interval = setInterval(async () => {
       if (!isAwake) return;
+      const remainingBlocks = await getRemainingFor?.send([account?.address], { defaultCaller: true});
+      console.log('##### getRemaining value', remainingBlocks?.ok && remainingBlocks.value.decoded);
 
-      const waterStatus = await getWater?.send([], { defaultCaller: true });
-      console.log('##### getWater value', waterStatus?.ok && waterStatus.value.decoded);
-
-      if (waterStatus?.ok && waterStatus.value.decoded) {
-        // setTxMessage("Read plant health: " + waterStatus?.value?.decoded);
-        setWaterLevel(waterStatus.value.decoded);
+      if (remainingBlocks?.ok && remainingBlocks.value.decoded) {
+        setRemainingBlocks(remainingBlocks.value.decoded);
       }
 
-      runtimeError = pickError(getWater?.result);
+      runtimeError = pickError(getRemaining?.result);
       if (runtimeError != undefined) {
-        console.log('Form getWater runtimeError', runtimeError);
+        console.log('Form getRemaining runtimeError', runtimeError);
       }
     }, 5000);
     return () => clearInterval(interval);
   }, [isAwake]);
 
-  const awakeTamagotchi = async () => {
-    console.log('awakeTamagotchi');
+  const startMagink = async () => {
+    console.log('startMagink');
     setIsAwake(true);
 
     const startArgs = [initialValues.blocksToLive];
     const options = undefined;
-    // setTxMessage('Sign awaking transaction');
-    start?.signAndSend(startArgs, options, (result, _api, error) => {
+    start?.signAndSend(startArgs, options, (result: any, _api: any, error: any) => {
       if (error) {
         console.error(JSON.stringify(error));
       }
       console.log('result', result);
-      if (result?.status) {
-        // setTxMessage('Transaction status: ' + result?.status.type);
-      }
-      if (result?.status.isInBlock) {
-        console.log('invoke checkLevel');
-        //checkLevel();
-      }
       const dispatchError = start.result?.dispatchError;
 
       if (dispatchError && magink?.contract) {
@@ -79,7 +71,7 @@ export const FormContainer = () => {
         }}
       >
         {({ status: { finalized, events, slug, errorMessage } = {}, isSubmitting }) => {
-          return isSubmitting && water && !hasAny(water, 'PendingSignature', 'None') ? (
+          return isSubmitting && claim && !hasAny(claim, 'PendingSignature', 'None') ? (
             <Loader message="Submitting transaction..." />
           ) : (
             <>
@@ -88,14 +80,14 @@ export const FormContainer = () => {
                 <div className="form-panel">
                   {/* <img src={linkLogo} className="link-logo" alt="logo" />{" "} */}
                   <h2>Magink!</h2>
-                  <br/>
+                  <br />
                   {finalized ? (
                     <SubmitResult events={events} slug={slug} errorMessage={errorMessage} />
                   ) : (
                     <MaginkForm
-                      awake={awakeTamagotchi}
+                      awake={startMagink}
                       isAwake={isAwake}
-                      waterLevel={waterLevel}
+                      remainingBlocks={remainingBlocks}
                       runtimeError={runtimeError}
                     />
                   )}
