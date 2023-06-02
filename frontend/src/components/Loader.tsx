@@ -4,7 +4,7 @@ export const Loader = ({ message }: { message: string }) => {
     <div className="overflow-hidden">
       <div className="container">
         <div className="text-info">
-          <h1>Shortened with link!</h1>
+          <h1>Tamagotchink!</h1>
           <div className="tag-line">
             <span>
             The game to grow your Tamagotchi with the{" "}

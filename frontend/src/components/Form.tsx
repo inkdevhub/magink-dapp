@@ -69,7 +69,7 @@ export const UrlShortenerForm = () => {
     <Form>
       <div className="group">
         {account &&
-          // !isAwake && 
+          !isAwake && 
           (
             <Button
               type="button"

@@ -19,7 +19,6 @@ export const FormContainer = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, helpers) => {
-          debugger;
           if (!helpers) return;
           submitFn(values, helpers);
         }}
