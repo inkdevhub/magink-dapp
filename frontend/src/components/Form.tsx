@@ -7,6 +7,7 @@ import { pickDecodedError } from 'useink/utils';
 import { useWallet } from 'useink';
 import { Button } from './Button';
 import { Gallery } from './Gallery';
+import { DryRunResult } from './DryRunResult';
 
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
   runtimeError?: any;
 }
 
-export const UrlShortenerForm = ({ awake, isAwake, waterLevel, runtimeError }: Props) => {
+export const MaginkForm = ({ awake, isAwake, waterLevel, runtimeError }: Props) => {
   const { isSubmitting, isValid, values, setFieldTouched, handleChange } = useFormikContext<Values>();
   const { waterDryRun, magink, start, getWater } = useLinkContract();
   const { account } = useWallet();
@@ -34,17 +35,15 @@ export const UrlShortenerForm = ({ awake, isAwake, waterLevel, runtimeError }: P
       </div>
 
       <div className="group">
-        Claim a new badge in {" "}{waterLevel}{" "} blocks
-        {/* <ErrorMessage name="alias" component="div" className="error-message" /> */}
+        Claim a new badge after {" "}{waterLevel}{" "} blocks
       </div>
 
-      {/* <div className="group">
+      <div className="group">
         {isValid && <DryRunResult values={values} />}
-      </div> */}
+      </div>
 
       <div className="group">
         {account ? (
-
           <Button
             type="submit"
             disabled={isSubmitting || !isValid}

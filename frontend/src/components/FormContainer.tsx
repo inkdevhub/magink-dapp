@@ -2,7 +2,7 @@ import linkLogo from '../link-logo.svg';
 import { Formik } from 'formik';
 import { initialValues } from '../const';
 import { useLinkContract, useSubmitHandler, useUI } from '../hooks';
-import { UrlShortenerForm } from './Form';
+import { MaginkForm } from './Form';
 import { Header } from './Header';
 import { SubmitResult } from './SubmitResult';
 import { ConnectWallet, Loader } from '.';
@@ -92,7 +92,7 @@ export const FormContainer = () => {
                   {finalized ? (
                     <SubmitResult events={events} slug={slug} errorMessage={errorMessage} />
                   ) : (
-                    <UrlShortenerForm
+                    <MaginkForm
                       awake={awakeTamagotchi}
                       isAwake={isAwake}
                       waterLevel={waterLevel}
