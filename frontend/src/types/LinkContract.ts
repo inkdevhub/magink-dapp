@@ -9,6 +9,3 @@ export enum LinkContractError {
   UpgradeFailed = 'UpgradeFailed',
   UrlNotFound = 'UrlNotFound', 
 }
-export type ShorteningResult = ShorteningOutcome | LinkContractError;
-
-export type ResolvedUrl = string;

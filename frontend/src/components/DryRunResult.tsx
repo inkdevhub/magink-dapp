@@ -9,12 +9,12 @@ interface Props {
 }
 
 export function DryRunResult({ values }: Props) {
-  const { shortenDryRun, hasDuplicateSlug } = useLinkContract();
+  const { startDryRun } = useLinkContract();
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     async function getOutcome() {
-      shortenDryRun?.send([{ DeduplicateOrNew: values.alias }, values.url], { defaultCaller: true });
+      startDryRun?.send([values.blocksToLive], { defaultCaller: true });
     }
 
     function debouncedDryRun() {
@@ -27,37 +27,19 @@ export function DryRunResult({ values }: Props) {
     }
 
     debouncedDryRun();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shortenDryRun?.send, values.alias, values.url]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startDryRun?.send]);
 
-  if (!shortenDryRun?.result) return null;
+  if (!startDryRun?.result) return null;
 
-  const decoded = pickDecoded(shortenDryRun?.result);
-  const txInfo = pickTxInfo(shortenDryRun?.result);
-
+  const decoded = pickDecoded(startDryRun?.result);
+  const txInfo = pickTxInfo(startDryRun?.result);
+  // console.log("decoded", decoded)
+  // console.log("txInfo", txInfo)
   return (
-    <div className="estimations">
       <div>
-        {decoded && typeof decoded === "object" ? (
-          <>
-            <p>This url has already been shortened.</p>
-            <Link to={`/${decoded.Deduplicated.slug}`}>
-              {`${window.location.host}/${decoded.Deduplicated.slug}`}
-            </Link>
-          </>
-        ) : (
-          hasDuplicateSlug ? (
-            <p className="text-red-500 text-xs mt-0">
-              Please choose another alias. <span className="bg-white/5 rounded-md px-2 py-1 font-semibold">{values.alias}</span> is already taken.
-            </p>
-          ): (
-            <>
-              <p>storage deposit: {txInfo ? txInfo.storageDeposit.asCharge.toHuman() : '--'}</p>
-              <p>gas fee: {txInfo ? txInfo.partialFee.toHuman() : '--'}</p>
-            </>
-          )
-        )}
+        <p>storage deposit: {txInfo ? txInfo.storageDeposit.asCharge.toHuman() : '--'}</p>
+        <p>gas fee: {txInfo ? txInfo.partialFee.toHuman() : '--'}</p>
       </div>
-    </div>
   );
 }

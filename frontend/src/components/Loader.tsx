@@ -1,26 +1,13 @@
-import squid from "../squid.svg";
 
 export const Loader = ({ message }: { message: string }) => {
   return (
     <div className="overflow-hidden">
-      <section className="sticky">
-        <div className="squids">
-          <img src={squid} className="squid" alt="logo" />
-          <img src={squid} className="squid" alt="logo" />
-          <img src={squid} className="squid" alt="logo" />
-          <img src={squid} className="squid" alt="logo" />
-          <img src={squid} className="squid" alt="logo" />
-          <img src={squid} className="squid" alt="logo" />
-          <img src={squid} className="squid" alt="logo" />
-        </div>
-        <img src={squid} className="big-squid" alt="logo" />
-      </section>
       <div className="container">
         <div className="text-info">
-          <h1>Shortened with link!</h1>
+          <h1>Astar Magink! School</h1>
           <div className="tag-line">
             <span>
-              The unstoppable link shortener built with the{" "}
+            Lets's learn some magink! with the{" "}
               <a
                 href="https://github.com/paritytech/ink"
                 target="_blank"
@@ -31,6 +18,7 @@ export const Loader = ({ message }: { message: string }) => {
             </span>
             .
           </div>
+          <h3><a href="https://www.freepik.com/free-vector/magic-isometric-icons-set-with-wizards-witches-various-stuff-witchcraft-alchemy-isolated-white-background-3d-vector-illustration_26765318.htm#&position=1&from_view=collections">Image by macrovector</a> on Freepik</h3>
           <h3 className="animate-pulse text-lg font-semibold mt-6">{message}</h3>
         </div>
       </div>

@@ -5,19 +5,24 @@ import { decodeError } from "useink/core";
 import { useLinkContract } from "./useLinkContract";
 
 export const useSubmitHandler = () => {
-  const { shorten, shortenDryRun, link } = useLinkContract();
+  const { water, waterDryRun, magink } = useLinkContract();
   
   return async (
     values: Values,
     { setSubmitting, setStatus }: FormikHelpers<Values>
   ) => {
-    const isDryRunSuccess = 'Shortened' === pickDecoded(shortenDryRun?.result);
+    // const isDryRunSuccess = 'Shortened' === pickDecoded(waterDryRun?.result);
+    // console.log("enter Submit");
+    // const dr = pickDecoded(waterDryRun?.result);
+    // console.log("waterDryRun", dr);
+    const isDryRunSuccess = true;
     if (!isDryRunSuccess) return;
+    console.log("send water Tx")
 
-    const shortenArgs = [{ DeduplicateOrNew: values.alias }, values.url];
+    const waterArgs = [];
     const options = undefined;
 
-    shorten?.signAndSend(shortenArgs, options, (result, _api, error) => {
+    water?.signAndSend(undefined, options, (result, _api, error) => {
       if (error) {
         console.error(JSON.stringify(error));
         setSubmitting(false);
@@ -54,10 +59,10 @@ export const useSubmitHandler = () => {
         }
       });
 
-      const dispatchError = shorten.result?.dispatchError;
+      const dispatchError = water.result?.dispatchError;
 
-      if (dispatchError && link?.contract) {
-        const errorMessage = decodeError(dispatchError, link, undefined, 'Something went wrong') ;
+      if (dispatchError && magink?.contract) {
+        const errorMessage = decodeError(dispatchError, magink, undefined, 'Something went wrong') ;
         setStatus({ finalized: true, events, errorMessage })
       }
 
