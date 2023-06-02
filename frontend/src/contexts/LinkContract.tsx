@@ -5,7 +5,7 @@ import metadata from "../metadata.json";
 import { useTxNotifications } from "useink/notifications";
 
 interface LinkContractState {
-  tamagotchink?: ChainContract; 
+  magink?: ChainContract; 
   startDryRun?: DryRun<number>;
   waterDryRun?: DryRun<number>;
   start?: Tx<number>;
@@ -16,12 +16,12 @@ interface LinkContractState {
 export const LinkContractContext = createContext<LinkContractState>({});
 
 export function LinkContractProvider({ children }: PropsWithChildren) {
-  const tamagotchink = useContract(CONTRACT_ADDRESS, metadata);
-  const waterDryRun = useDryRun<number>(tamagotchink, 'water');
-  const startDryRun = useDryRun<number>(tamagotchink, 'start');
-  const water = useTx(tamagotchink, 'water');
-  const start = useTx(tamagotchink, 'start');
-  const getWater = useCall<number>(tamagotchink, 'getWater');
+  const magink = useContract(CONTRACT_ADDRESS, metadata);
+  const waterDryRun = useDryRun<number>(magink, 'water');
+  const startDryRun = useDryRun<number>(magink, 'start');
+  const water = useTx(magink, 'water');
+  const start = useTx(magink, 'start');
+  const getWater = useCall<number>(magink, 'getWater');
   useTxNotifications(water);
   useTxNotifications(start);
 
@@ -33,7 +33,7 @@ export function LinkContractProvider({ children }: PropsWithChildren) {
   //   waterDryRun.result.value.partialFee.gtn(0)
 
   return (
-    <LinkContractContext.Provider value={{ tamagotchink, startDryRun, waterDryRun, start, water, getWater }}>
+    <LinkContractContext.Provider value={{ magink, startDryRun, waterDryRun, start, water, getWater }}>
       {children}
     </LinkContractContext.Provider>
   );

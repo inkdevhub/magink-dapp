@@ -5,7 +5,7 @@ import { decodeError } from "useink/core";
 import { useLinkContract } from "./useLinkContract";
 
 export const useSubmitHandler = () => {
-  const { water, waterDryRun, tamagotchink } = useLinkContract();
+  const { water, waterDryRun, magink } = useLinkContract();
   
   return async (
     values: Values,
@@ -61,8 +61,8 @@ export const useSubmitHandler = () => {
 
       const dispatchError = water.result?.dispatchError;
 
-      if (dispatchError && tamagotchink?.contract) {
-        const errorMessage = decodeError(dispatchError, tamagotchink, undefined, 'Something went wrong') ;
+      if (dispatchError && magink?.contract) {
+        const errorMessage = decodeError(dispatchError, magink, undefined, 'Something went wrong') ;
         setStatus({ finalized: true, events, errorMessage })
       }
 

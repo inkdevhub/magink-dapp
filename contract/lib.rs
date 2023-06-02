@@ -1,15 +1,15 @@
 #![cfg_attr(not(feature = "std"), no_std, no_main)]
 
 #[ink::contract]
-pub mod tamagotchink {
+pub mod magink {
     #[ink(storage)]
-    pub struct Tamagotchink {
+    pub struct Magink {
         blocks_to_live: u8,
         start_block: u32,
     }
 
-    impl Tamagotchink {
-        /// Creates a new Tamagotchink smart contract.
+    impl Magink {
+        /// Creates a new Magink smart contract.
         #[ink(constructor)]
         pub fn new() -> Self {
             Self {
@@ -18,7 +18,7 @@ pub mod tamagotchink {
             }
         }
 
-        /// Set the eras of the Tamagotchink smart contract.
+        /// Set the eras of the Magink smart contract.
         #[ink(message)]
         pub fn start(&mut self, life_span: u8) {
             self.blocks_to_live = life_span;
@@ -31,7 +31,7 @@ pub mod tamagotchink {
             self.start_block = self.env().block_number();
         }
 
-        /// Returns the current value of the Tamagotchink's boolean.
+        /// Returns the current value of the Magink's boolean.
         #[ink(message)]
         pub fn get_water(&self) -> u8 {
             let current_block = self.env().block_number();
@@ -48,10 +48,10 @@ pub mod tamagotchink {
 
         #[ink::test]
         fn it_works() {
-            let mut tamagotchink = Tamagotchink::new();
-            println!("get {:?}", tamagotchink.get_water());
-            tamagotchink.start(10);
-            assert_eq!(10, tamagotchink.get_water());
+            let mut magink = Magink::new();
+            println!("get {:?}", magink.get_water());
+            magink.start(10);
+            assert_eq!(10, magink.get_water());
         }
     }
 
@@ -65,29 +65,29 @@ pub mod tamagotchink {
         #[ink_e2e::test]
         async fn it_works(mut client: ink_e2e::Client<C, E>) -> E2EResult<()> {
             // given
-            let constructor = TamagotchinkRef::new(false);
+            let constructor = MaginkRef::new(false);
             let contract_acc_id = client
-                .instantiate("tamagotchink", &ink_e2e::alice(), constructor, 0, None)
+                .instantiate("magink", &ink_e2e::alice(), constructor, 0, None)
                 .await
                 .expect("instantiate failed")
                 .account_id;
 
-            let get = build_message::<TamagotchinkRef>(contract_acc_id.clone())
-                .call(|tamagotchink| tamagotchink.get());
+            let get = build_message::<MaginkRef>(contract_acc_id.clone())
+                .call(|magink| magink.get());
             let get_res = client.call_dry_run(&ink_e2e::bob(), &get, 0, None).await;
             assert!(matches!(get_res.return_value(), false));
 
             // when
-            let flip = build_message::<TamagotchinkRef>(contract_acc_id.clone())
-                .call(|tamagotchink| tamagotchink.flip());
+            let flip = build_message::<MaginkRef>(contract_acc_id.clone())
+                .call(|magink| magink.flip());
             let _flip_res = client
                 .call(&ink_e2e::bob(), flip, 0, None)
                 .await
                 .expect("flip failed");
 
             // then
-            let get = build_message::<TamagotchinkRef>(contract_acc_id.clone())
-                .call(|tamagotchink| tamagotchink.get());
+            let get = build_message::<MaginkRef>(contract_acc_id.clone())
+                .call(|magink| magink.get());
             let get_res = client.call_dry_run(&ink_e2e::bob(), &get, 0, None).await;
             assert!(matches!(get_res.return_value(), true));
 
@@ -97,18 +97,18 @@ pub mod tamagotchink {
         #[ink_e2e::test]
         async fn default_works(mut client: ink_e2e::Client<C, E>) -> E2EResult<()> {
             // given
-            let constructor = TamagotchinkRef::new_default();
+            let constructor = MaginkRef::new_default();
 
             // when
             let contract_acc_id = client
-                .instantiate("tamagotchink", &ink_e2e::bob(), constructor, 0, None)
+                .instantiate("magink", &ink_e2e::bob(), constructor, 0, None)
                 .await
                 .expect("instantiate failed")
                 .account_id;
 
             // then
-            let get = build_message::<TamagotchinkRef>(contract_acc_id.clone())
-                .call(|tamagotchink| tamagotchink.get());
+            let get = build_message::<MaginkRef>(contract_acc_id.clone())
+                .call(|magink| magink.get());
             let get_res = client.call_dry_run(&ink_e2e::bob(), &get, 0, None).await;
             assert!(matches!(get_res.return_value(), false));
 

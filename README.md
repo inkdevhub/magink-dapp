@@ -1,10 +1,10 @@
-# Tamagotchink! ‒ The Tamagotchi game template <br/>
+# Magink! ‒ Let's learn some magink! <br/>
 <br clear="both"/>
 
 
 ## Shibuya Deployment
 
-The Tamagotchink! contract is deployed to Shibuya testnet at the following address:
+The Magink! contract is deployed to Shibuya testnet at the following address:
 ```
 5...
 ```

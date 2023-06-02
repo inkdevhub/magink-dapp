@@ -7,6 +7,7 @@ import { pickDecodedError } from 'useink/utils';
 import { useWallet } from 'useink';
 import { Button } from './Button';
 
+
 interface Props {
   awake: () => void;
   isAwake: boolean;
@@ -16,7 +17,7 @@ interface Props {
 
 export const UrlShortenerForm = ({ awake, isAwake, waterLevel, runtimeError }: Props) => {
   const { isSubmitting, isValid, values, setFieldTouched, handleChange } = useFormikContext<Values>();
-  const { waterDryRun, tamagotchink, start, getWater } = useLinkContract();
+  const { waterDryRun, magink, start, getWater } = useLinkContract();
   const { account } = useWallet();
   const { setShowConnectWallet } = useUI();
   const [txMessage, setTxMessage] = useState<string>('');
@@ -32,7 +33,7 @@ export const UrlShortenerForm = ({ awake, isAwake, waterLevel, runtimeError }: P
       </div>
 
       <div className="group">
-        Blocks to live {waterLevel}
+        Claim a new badge in {" "}{waterLevel}{" "} blocks
         {/* <ErrorMessage name="alias" component="div" className="error-message" /> */}
       </div>
 
@@ -42,8 +43,12 @@ export const UrlShortenerForm = ({ awake, isAwake, waterLevel, runtimeError }: P
 
       <div className="group">
         {account ? (
-          <Button type="submit" disabled={isSubmitting || !isValid}>
-            Water
+
+          <Button
+            type="submit"
+            disabled={isSubmitting || !isValid}
+          >
+            Claim badge
           </Button>
         ) : (
           <Button type="button" onClick={() => setShowConnectWallet(true)}>
@@ -51,14 +56,15 @@ export const UrlShortenerForm = ({ awake, isAwake, waterLevel, runtimeError }: P
           </Button>
         )}
       </div>
+      <Gallery level={9}/>
 
       <div className="text-xs text-left mb-2 text-purple-500">{txMessage}</div>
 
-      {runtimeError && tamagotchink && (
+      {runtimeError && magink && (
         <div className="text-xs text-left mb-2 text-red-500">
           {pickDecodedError(
             waterDryRun,
-            tamagotchink,
+            magink,
             {
               ContractTrapped: 'Unable to complete transaction.',
               StorageDepositLimitExhausted: 'Not enough funds in the selected account.',
