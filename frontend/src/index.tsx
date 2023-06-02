@@ -5,7 +5,7 @@ import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { LinkContractProvider, UIProvider } from "./contexts";
 import { InkConfig, UseInkProvider } from "useink";
-import { RococoContractsTestnet, ShibuyaTestnet } from 'useink/chains';
+import { Astar, Development, RococoContractsTestnet, ShibuyaTestnet } from 'useink/chains';
 import { NotificationsProvider } from "useink/notifications";
 import { Notifications } from "./components/Notifications";
 

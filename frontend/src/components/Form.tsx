@@ -21,7 +21,6 @@ export const UrlShortenerForm = () => {
 
   var runtimeError;
   const checkLevel = () => {
-    if (isAwake) {
       const interval = setInterval(async () => {
         const waterStatus = await getWater?.send([], { defaultCaller: true });
         console.log("##### getWater value", waterStatus?.ok && waterStatus.value.decoded);
@@ -37,7 +36,6 @@ export const UrlShortenerForm = () => {
         }
       }, 5000);
       return () => clearInterval(interval);
-    }
   }
   const awakeTamagotchi = async () => {
     console.log("awakeTamagotchi");
@@ -84,8 +82,8 @@ export const UrlShortenerForm = () => {
       </div>
 
       <div className="group">
-        Blocks to live{" "}{isAwake && (waterLevel)}
-        <ErrorMessage name="alias" component="div" className="error-message" />
+        Blocks to live{" "}{waterLevel}
+        {/* <ErrorMessage name="alias" component="div" className="error-message" /> */}
       </div>
 
       {/* <div className="group">
@@ -102,7 +100,10 @@ export const UrlShortenerForm = () => {
             Water
           </Button>
         ) : (
-          <Button onClick={() => setShowConnectWallet(true)}>
+          <Button 
+          type="button"
+
+          onClick={() => setShowConnectWallet(true)}>
             Connect Wallet
           </Button>
         )}

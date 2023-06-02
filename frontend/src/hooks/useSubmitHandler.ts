@@ -12,14 +12,17 @@ export const useSubmitHandler = () => {
     { setSubmitting, setStatus }: FormikHelpers<Values>
   ) => {
     // const isDryRunSuccess = 'Shortened' === pickDecoded(waterDryRun?.result);
-    console.log("waterDryRun", pickDecoded(waterDryRun?.result))
+    // console.log("enter Submit");
+    // const dr = pickDecoded(waterDryRun?.result);
+    // console.log("waterDryRun", dr);
     const isDryRunSuccess = true;
     if (!isDryRunSuccess) return;
+    console.log("send water Tx")
 
-    const waterArgs = [values.blocksToLive];
+    const waterArgs = [];
     const options = undefined;
 
-    water?.signAndSend(waterArgs, options, (result, _api, error) => {
+    water?.signAndSend(undefined, options, (result, _api, error) => {
       if (error) {
         console.error(JSON.stringify(error));
         setSubmitting(false);

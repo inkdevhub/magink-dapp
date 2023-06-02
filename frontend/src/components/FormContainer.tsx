@@ -18,8 +18,8 @@ export const FormContainer = () => {
       <ConnectWallet show={showConnectWallet} onClose={() => setShowConnectWallet(false)} />
       <Formik
         initialValues={initialValues}
-        validationSchema={UrlShortenerSchema}
         onSubmit={(values, helpers) => {
+          debugger;
           if (!helpers) return;
           submitFn(values, helpers);
         }}

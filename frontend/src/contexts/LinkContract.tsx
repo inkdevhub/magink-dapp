@@ -16,11 +16,6 @@ interface LinkContractState {
 export const LinkContractContext = createContext<LinkContractState>({});
 
 export function LinkContractProvider({ children }: PropsWithChildren) {
-  // const link = useContract(CONTRACT_ADDRESS, metadata);
-  // const shortenDryRun = useDryRun<ShorteningResult>(link, 'shorten');
-  // const shorten = useTx(link, 'shorten');
-  // useTxNotifications(shorten);
-  // const resolve = useCall<ResolvedUrl>(link, 'resolve');
   const tamagotchink = useContract(CONTRACT_ADDRESS, metadata);
   const waterDryRun = useDryRun<number>(tamagotchink, 'water');
   const startDryRun = useDryRun<number>(tamagotchink, 'start');
@@ -28,6 +23,7 @@ export function LinkContractProvider({ children }: PropsWithChildren) {
   const start = useTx(tamagotchink, 'start');
   const getWater = useCall<number>(tamagotchink, 'getWater');
   useTxNotifications(water);
+  useTxNotifications(start);
 
   // The current contract does not return an Result<_, Err> so we need to hack the
   // duplicate Slug error check. ink! v4 handles this better. Using ink! v4 we can simply
