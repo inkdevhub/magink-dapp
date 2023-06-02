@@ -12,13 +12,14 @@ import { decodeError } from 'useink/core';
 import { useWallet } from 'useink';
 
 export const FormContainer = () => {
-  const { claimDryRun, magink, start, getRemaining, getRemainingFor } = useMaginkContract();
+  const { claimDryRun, magink, start, getRemaining, getRemainingFor, getBadges } = useMaginkContract();
   const submitFn = useSubmitHandler();
   const { account } = useWallet();
   const { showConnectWallet, setShowConnectWallet } = useUI();
   const { claim } = useMaginkContract();
   const [isAwake, setIsAwake] = useState(false);
   const [remainingBlocks, setRemainingBlocks] = useState<number>(0);
+  const [badges, setBadges] = useState<number>(0);
 
   var runtimeError: any; // TODO check this
 
@@ -30,6 +31,13 @@ export const FormContainer = () => {
 
       if (remainingBlocks?.ok && remainingBlocks.value.decoded) {
         setRemainingBlocks(remainingBlocks.value.decoded);
+        if (remainingBlocks.value.decoded == 0) {
+          const badges = await getBadges?.send([]);
+          console.log('##### getBadges value', badges?.ok && badges.value.decoded);
+          if (badges?.ok && badges.value.decoded) {
+            setBadges(badges.value.decoded);
+          }
+        }
       }
 
       runtimeError = pickError(getRemaining?.result);
@@ -87,6 +95,7 @@ export const FormContainer = () => {
                     <MaginkForm
                       awake={startMagink}
                       isAwake={isAwake}
+                      badges={badges}
                       remainingBlocks={remainingBlocks}
                       runtimeError={runtimeError}
                     />

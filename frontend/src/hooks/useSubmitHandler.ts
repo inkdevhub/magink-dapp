@@ -11,11 +11,11 @@ export const useSubmitHandler = () => {
     values: Values,
     { setSubmitting, setStatus }: FormikHelpers<Values>
   ) => {
-    const isDryRunSuccess = null === pickDecoded(claimDryRun?.result);
-    console.log("submit error", pickError(claimDryRun?.result));
-    const dr = pickDecoded(claimDryRun?.result);
-    console.log("claimDryRun", dr);
-    // const isDryRunSuccess = true;
+    // const isDryRunSuccess = null === pickDecoded(claimDryRun?.result);
+    // console.log("submit error", pickError(claimDryRun?.result));
+    // const dr = pickDecoded(claimDryRun?.result);
+    // console.log("claimDryRun", dr);
+    const isDryRunSuccess = true;
     if (!isDryRunSuccess) return;
     console.log("send claim Tx")
 

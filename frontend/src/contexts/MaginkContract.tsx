@@ -12,6 +12,7 @@ interface MaginkContractState {
   claim?: Tx<number>;
   getRemaining?: Call<number>;
   getRemainingFor?: Call<number>;
+  getBadges?: Call<number>;
 }
 
 export const MaginkContractContext = createContext<MaginkContractState>({});
@@ -23,6 +24,7 @@ export function MaginkContractProvider({ children }: PropsWithChildren) {
   const claim = useTx(magink, 'claim');
   const start = useTx(magink, 'start');
   const getRemaining = useCall<number>(magink, 'getRemaining');
+  const getBadges = useCall<number>(magink, 'getBadges');
   const getRemainingFor = useCall<number>(magink, 'getRemainingFor');
   useTxNotifications(claim);
   useTxNotifications(start);
@@ -35,7 +37,7 @@ export function MaginkContractProvider({ children }: PropsWithChildren) {
   //   claimDryRun.result.value.partialFee.gtn(0)
 
   return (
-    <MaginkContractContext.Provider value={{ magink, startDryRun, claimDryRun, start, claim, getRemaining, getRemainingFor }}>
+    <MaginkContractContext.Provider value={{ magink, startDryRun, claimDryRun, start, claim, getRemaining, getRemainingFor, getBadges }}>
       {children}
     </MaginkContractContext.Provider>
   );

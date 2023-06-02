@@ -13,11 +13,12 @@ import { DryRunResult } from './DryRunResult';
 interface Props {
   awake: () => void;
   isAwake: boolean;
+  badges: number;
   remainingBlocks: number;
   runtimeError?: any;
 }
 
-export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError }: Props) => {
+export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badges }: Props) => {
   const { isSubmitting, isValid, values, setFieldTouched, handleChange } = useFormikContext<Values>();
   const { claimDryRun, magink, start, getRemaining } = useMaginkContract();
   const { account } = useWallet();
@@ -40,9 +41,9 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError }: Pr
         Claim a new badge after {" "}{remainingBlocks}{" "} blocks
       </div>
 
-      <div className="group">
+      {/* <div className="group">
         {isValid && <DryRunResult values={values} />}
-      </div>
+      </div> */}
 
       <div className="group">
         {account ? (
@@ -58,7 +59,7 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError }: Pr
           </Button>
         )}
       </div>
-      <Gallery level={9}/>
+      <Gallery level={badges}/>
 
       {runtimeError && magink && (
         <div className="text-xs text-left mb-2 text-red-500">
