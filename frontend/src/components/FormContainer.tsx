@@ -35,8 +35,8 @@ export const FormContainer = () => {
               <div className="content">
                 <div className="form-panel">
                   {/* <img src={linkLogo} className="link-logo" alt="logo" />{" "} */}
-                  <h2>Tamagotchink!</h2>
-                  <h2>.</h2>
+                  <h2>Magink!</h2>
+                  <br/>
                   {finalized ? (
                     <SubmitResult
                       events={events}

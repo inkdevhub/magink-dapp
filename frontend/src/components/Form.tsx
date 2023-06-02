@@ -8,11 +8,11 @@ import { pickDecoded, pickDecodedError, pickError } from "useink/utils";
 import { decodeError } from "useink/core";
 import { useWallet } from "useink";
 import { Button } from "./Button";
-import { get } from "http";
+import { Gallery } from "./Gallery";  
 
 export const UrlShortenerForm = () => {
   const { isSubmitting, isValid, values, setFieldTouched, handleChange } = useFormikContext<Values>();
-  const { waterDryRun, tamagotchink, start, getWater } = useLinkContract();
+  const { waterDryRun, magink, start, getWater } = useLinkContract();
   const { account } = useWallet();
   const { setShowConnectWallet } = useUI();
   const [isAwake, setIsAwake] = useState(false);
@@ -58,8 +58,8 @@ export const UrlShortenerForm = () => {
       }
       const dispatchError = start.result?.dispatchError;
 
-      if (dispatchError && tamagotchink?.contract) {
-        const errorMessage = decodeError(dispatchError, tamagotchink, undefined, 'Something went wrong');
+      if (dispatchError && magink?.contract) {
+        const errorMessage = decodeError(dispatchError, magink, undefined, 'Something went wrong');
         console.log("errorMessage", errorMessage);
       }
     });
@@ -82,7 +82,7 @@ export const UrlShortenerForm = () => {
       </div>
 
       <div className="group">
-        Blocks to live{" "}{waterLevel}
+        Claim a new badge in {" "}{waterLevel}{" "} blocks
         {/* <ErrorMessage name="alias" component="div" className="error-message" /> */}
       </div>
 
@@ -97,7 +97,7 @@ export const UrlShortenerForm = () => {
             type="submit"
             disabled={isSubmitting || !isValid}
           >
-            Water
+            Claim badge
           </Button>
         ) : (
           <Button 
@@ -108,16 +108,17 @@ export const UrlShortenerForm = () => {
           </Button>
         )}
       </div>
+      <Gallery level={9}/>
 
       <div className="text-xs text-left mb-2 text-purple-500">
         {txMessage}
       </div>
 
-      {runtimeError && tamagotchink && (
+      {runtimeError && magink && (
         <div className="text-xs text-left mb-2 text-red-500">
           {pickDecodedError(
             waterDryRun,
-            tamagotchink,
+            magink,
             {
               ContractTrapped: 'Unable to complete transaction.',
               StorageDepositLimitExhausted: 'Not enough funds in the selected account.',
