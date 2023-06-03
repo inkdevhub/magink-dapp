@@ -13,6 +13,7 @@ interface MaginkContractState {
   getRemaining?: Call<number>;
   getRemainingFor?: Call<number>;
   getBadges?: Call<number>;
+  getBadgesFor?: Call<number>;
 }
 
 export const MaginkContractContext = createContext<MaginkContractState>({});
@@ -25,19 +26,13 @@ export function MaginkContractProvider({ children }: PropsWithChildren) {
   const start = useTx(magink, 'start');
   const getRemaining = useCall<number>(magink, 'getRemaining');
   const getBadges = useCall<number>(magink, 'getBadges');
+  const getBadgesFor = useCall<number>(magink, 'getBadgesFor');
   const getRemainingFor = useCall<number>(magink, 'getRemainingFor');
   useTxNotifications(claim);
   useTxNotifications(start);
 
-  // The current contract does not return an Result<_, Err> so we need to hack the
-  // duplicate Slug error check. ink! v4 handles this better. Using ink! v4 we can simply
-  // use `pickError(claimDryRun?.result)` and check for the error type or undefined.
-  // const hasDuplicateSlug = claimDryRun?.result?.ok && 
-  //   claimDryRun.result.value.storageDeposit.asCharge.eq(0) && 
-  //   claimDryRun.result.value.partialFee.gtn(0)
-
   return (
-    <MaginkContractContext.Provider value={{ magink, startDryRun, claimDryRun, start, claim, getRemaining, getRemainingFor, getBadges }}>
+    <MaginkContractContext.Provider value={{ magink, startDryRun, claimDryRun, start, claim, getRemaining, getRemainingFor, getBadges, getBadgesFor }}>
       {children}
     </MaginkContractContext.Provider>
   );

@@ -104,11 +104,19 @@ pub mod magink {
             let caller = self.env().caller();
             self.user.get(&caller)
         }
-        /// Returns the profile of the caller.
+
+        /// Returns the badge of the caller.
         #[ink(message)]
         pub fn get_badges(&self) -> u8 {
             self.get_profile().map_or(0, |profile| profile.badges_claimed)
         }
+
+        /// Returns the badge count of the given account.
+        #[ink(message)]
+        pub fn get_badges_for(&self, account: AccountId) -> u8 {
+            self.get_account_profile(account).map_or(0, |profile| profile.badges_claimed)
+        }
+
     }
 
     #[cfg(test)]
@@ -128,6 +136,7 @@ pub mod magink {
         #[ink::test]
         fn claim_works() {
             const ERA: u32 = 10;
+            let accounts = default_accounts();
             let mut magink = Magink::new();
             magink.start(ERA as u8);
             advance_n_blocks(ERA - 1);
@@ -140,6 +149,8 @@ pub mod magink {
             advance_block();
             assert_eq!(Ok(()), magink.claim());
             assert_eq!(1, magink.get_badges());
+            assert_eq!(1, magink.get_badges_for(accounts.alice));
+            assert_eq!(1, magink.get_badges());
             assert_eq!(10, magink.get_remaining());
             
             // claim fails, too early
@@ -149,9 +160,9 @@ pub mod magink {
             assert_eq!(Err(Error::TooEarlyToClaim), magink.claim());
         }
 
-        // fn default_accounts() -> ink::env::test::DefaultAccounts<ink::env::DefaultEnvironment> {
-        //     ink::env::test::default_accounts::<Environment>()
-        // }
+        fn default_accounts() -> ink::env::test::DefaultAccounts<ink::env::DefaultEnvironment> {
+            ink::env::test::default_accounts::<Environment>()
+        }
 
         // fn set_sender(sender: AccountId) {
         //     ink::env::test::set_caller::<Environment>(sender);

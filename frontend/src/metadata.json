@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x2f6cba5a0bba5c8bffc9d6675c556f207ad4f0763d1b7ff8f6d09cfdfff86445",
+    "hash": "0x50a7aa8bff0ca5b131b9b7b27eaad15e1a4be884a0f94ace28db8c741b5a8bcb",
     "language": "ink! 4.2.0",
     "compiler": "rustc 1.69.0",
     "build_info": {
@@ -231,7 +231,7 @@
         "args": [],
         "default": false,
         "docs": [
-          " Returns the profile of the caller."
+          " Returns the badge of the caller."
         ],
         "label": "get_badges",
         "mutates": false,
@@ -244,6 +244,34 @@
           "type": 8
         },
         "selector": "0xd3907224"
+      },
+      {
+        "args": [
+          {
+            "label": "account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 9
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Returns the badge count of the given account."
+        ],
+        "label": "get_badges_for",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 8
+        },
+        "selector": "0x89caa824"
       }
     ]
   },

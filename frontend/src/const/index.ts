@@ -4,4 +4,4 @@ import { pseudoRandomId } from "useink/utils";
 export const initialValues: Values = { blocksToLive: 2 };
 
 export const CONTRACT_ADDRESS =
-  "Zx9BQbN3KfyMg3N2wmsLzfHwQJJvTecd7mhE5yTC3Jkxa5x";
+  "apJNVQJ5T4C5gZ1XRPw2MAHcUFxbuHch7BPGQuTyT8DHjeX";

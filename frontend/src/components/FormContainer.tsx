@@ -12,7 +12,7 @@ import { decodeError } from 'useink/core';
 import { useWallet } from 'useink';
 
 export const FormContainer = () => {
-  const { claimDryRun, magink, start, getRemaining, getRemainingFor, getBadges } = useMaginkContract();
+  const { claimDryRun, magink, start, getRemaining, getRemainingFor, getBadgesFor } = useMaginkContract();
   const submitFn = useSubmitHandler();
   const { account } = useWallet();
   const { showConnectWallet, setShowConnectWallet } = useUI();
@@ -32,8 +32,8 @@ export const FormContainer = () => {
       if (remainingBlocks?.ok && remainingBlocks.value.decoded) {
         setRemainingBlocks(remainingBlocks.value.decoded);
         if (remainingBlocks.value.decoded == 0) {
-          const badges = await getBadges?.send([]);
-          console.log('##### getBadges value', badges?.ok && badges.value.decoded);
+          const badges = await getBadgesFor?.send([account?.address], { defaultCaller: true});
+          console.log('##### getBadgesFor value', badges?.ok && badges.value.decoded);
           if (badges?.ok && badges.value.decoded) {
             setBadges(badges.value.decoded);
           }
