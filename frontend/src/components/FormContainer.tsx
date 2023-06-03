@@ -28,13 +28,17 @@ export const FormContainer = () => {
     const interval = setInterval(async () => {
       if (!isAwake) return;
       //get remaining blocks until next claim
-      const remainingBlocks = await getRemainingFor?.send([account?.address], { defaultCaller: true});
-      console.log('##### getRemaining value', remainingBlocks?.ok && remainingBlocks.value.decoded);
-      if (remainingBlocks?.ok && remainingBlocks.value.decoded) {
-        setRemainingBlocks(remainingBlocks.value.decoded);
+      const remaining = await getRemainingFor?.send([account?.address], { defaultCaller: true});
+      console.log('##### getRemaining value', remaining?.ok && remaining.value.decoded);
+      if (remaining?.ok && remaining.value.decoded) {
+        setRemainingBlocks(remaining.value.decoded);
       }
 
-      readBadges();
+      const badges = await getBadgesFor?.send([account?.address], { defaultCaller: true});
+      console.log('##### badges count', badges?.ok && badges.value.decoded);
+      if (badges?.ok && badges.value.decoded) {
+        setBadges(badges.value.decoded);
+      }
 
       runtimeError = pickError(getRemaining?.result);
       if (runtimeError != undefined) {
@@ -42,7 +46,7 @@ export const FormContainer = () => {
       }
     }, 5000);
     return () => clearInterval(interval);
-  }, [isAwake]);
+  }, [isAwake, badges, remainingBlocks]);
 
   const readBadges = async () => {
     console.log('##### getBadgesFor add', account?.address);
@@ -50,7 +54,7 @@ export const FormContainer = () => {
     console.log('##### getBadgesFor value', badges?.ok && badges.value.decoded);
     if (badges?.ok && badges.value.decoded) {
       setBadges(badges.value.decoded);
-      if (badges.value.decoded === 0) {
+      if (badges.value.decoded == 0) {
         startMagink();
       }
       else {
@@ -61,7 +65,6 @@ export const FormContainer = () => {
 
   const startMagink = async () => {
     console.log('startMagink');
-    readBadges();
     const startArgs = [initialValues.blocksToLive];
     const options = undefined;
     setStartTx(true);
@@ -96,7 +99,7 @@ export const FormContainer = () => {
       >
         {({ status: { finalized, events, slug, errorMessage } = {}, isSubmitting }) => {
           return isSubmitting && claim && !hasAny(claim, 'PendingSignature', 'None') ? (
-            <Loader message="Submitting transaction..." />
+            <Loader message="Claiming your badge..." />
           ) : (
             <>
               <Header />
@@ -106,7 +109,7 @@ export const FormContainer = () => {
                   <h2>Magink!</h2>
                   <br />
                   {finalized ? (
-                    <SubmitResult events={events} slug={slug} errorMessage={errorMessage} />
+                    <SubmitResult events={events} errorMessage={errorMessage} />
                   ) : (
                     <MaginkForm
                       awake={readBadges}

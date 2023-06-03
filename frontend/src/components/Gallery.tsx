@@ -32,7 +32,9 @@ export const Gallery = ({ level }: Props) => {
     return (
         <div>
             <br/>
-            <p>You have {gallery} badges</p>
+            <hr/>
+            {gallery == 9 ? <h3 className="animate-pulse text-xs text-right mb-2 text-violet-500">Congratulations! You have completed the Astar Magink! School</h3>
+            : <p className="text-xs text-right mb-2 text-violet-500">You earned {gallery} badges</p>}
             <div className="flex flex-wrap">
                 <GalleryItems />
             </div>

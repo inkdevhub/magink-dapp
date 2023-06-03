@@ -58,59 +58,9 @@ a {
   @apply text-purple-400 hover:text-purple-300;
 }
 
-/* Squid Animation */
-
-.squids{
-  @apply absolute w-full h-screen z-0;
-  overflow: hidden;
-  top:0;
-  left:0;
-}
-.squid{
+.wizard{
   position: absolute;
-  bottom: 0px;
-  animation: rise 20s infinite ease-in;
-}
-.squid:nth-child(1){
-  @apply w-12 opacity-40;
-  left:10%;
-  animation-duration:16s;
-}
-.squid:nth-child(2){
-  @apply w-6 h-6 opacity-20;
-  left:20%;
-  animation-duration:15s;
-}
-.squid:nth-child(3){
-  @apply w-12 h-12 opacity-40;
-  left:35%;
-  animation-duration:17s;
-}
-.squid:nth-child(4){
-  @apply w-20 h-20 opacity-40;
-  left: 50%;
-  animation-duration:11s;
-}
-.squid:nth-child(5){
-  @apply w-10 h-10 opacity-30;
-  left:55%;
-  animation-duration:16s;
-}
-.squid:nth-child(6){
-  @apply w-12 opacity-40;
-  left:80%;
-  animation-duration:15s;
-}
-.squid:nth-child(7){
-  @apply w-6 h-6 opacity-20;
-  left:90%;
-  animation-duration:16s;
-}
-
-.big-squid{
-  position: absolute;
-  width: 200px;
-  height:600px;
+  width:200px;
   left:60%;
   opacity: 0.5;
   animation: hovering 4s infinite alternate;

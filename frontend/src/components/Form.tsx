@@ -1,13 +1,12 @@
 import { Form, useFormikContext } from 'formik';
 import { Values } from '../types';
-import { useState } from 'react';
 import { NewUserGuide } from './NewUserGuide';
 import { useMaginkContract, useUI } from '../hooks';
 import { pickDecodedError } from 'useink/utils';
 import { useWallet } from 'useink';
 import { Button } from './Button';
 import { Gallery } from './Gallery';
-import { DryRunResult } from './DryRunResult';
+import { astarFacts } from '../const';
 
 
 interface Props {
@@ -30,27 +29,16 @@ export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtim
   }
   return (
     <Form>
-        {account && !isAwake && (
-          <Button type="button" disabled={isSubmitting || !isValid || isStarting} onClick={awake}>
-            Start
-          </Button>
-        )}
+      {account && !isAwake && (
+        <Button type="button" disabled={isSubmitting || !isValid || isStarting} onClick={awake}>
+          Start
+        </Button>
+      )}
       {isStarting && (
         <div className="animate-pulse text-lg font-semibold mt-6">
           Starting smart contract... please wait
         </div>
       )}
-
-      {remainingBlocks != 0 && isAwake && (
-        <div className="group">
-          Claim a new badge after {remainingBlocks} blocks
-        </div>
-      )}
-      {remainingBlocks === 0 && isAwake && (
-        <div className="group">
-          Claim the new badge Now<p />
-        </div>)
-      }
 
       {/* <div className="group">
         {isValid && <DryRunResult values={values} />}
@@ -59,9 +47,11 @@ export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtim
       <div className="group">
         {account && isAwake && (
           <>
+            <p>{astarFacts[badges]}</p>
+            <br />
             <Button
               type="submit"
-              disabled={isSubmitting || !isValid || remainingBlocks != 0}
+              disabled={isSubmitting || !isValid || remainingBlocks != 0 || badges >= 9}
             >
               Claim badge
             </Button>
@@ -73,6 +63,11 @@ export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtim
           </Button>
         )}
       </div>
+      {remainingBlocks != 0 && isAwake && badges <= 9 &&(
+        <div className="text-xs text-left mb-2 text-gray-200">
+          Claim a new badge after {remainingBlocks} blocks
+        </div>
+      )}
       {account && isAwake && (
         <Gallery level={badges} />
       )}
