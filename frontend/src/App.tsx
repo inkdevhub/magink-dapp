@@ -1,10 +1,10 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { FormContainer, Loader } from "./components";
-import { useLinkContract } from "./hooks";
+import { useMaginkContract } from "./hooks";
 
 function App() {
-  const { magink } = useLinkContract();
+  const { magink } = useMaginkContract();
 
   if (!magink) return <Loader message="Loading app..." />
 

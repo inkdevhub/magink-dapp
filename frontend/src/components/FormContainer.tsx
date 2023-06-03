@@ -1,71 +1,90 @@
 import linkLogo from '../link-logo.svg';
 import { Formik } from 'formik';
 import { initialValues } from '../const';
-import { useLinkContract, useSubmitHandler, useUI } from '../hooks';
-import { UrlShortenerForm } from './Form';
+import { useMaginkContract, useSubmitHandler, useUI } from '../hooks';
+import { MaginkForm } from './Form';
 import { Header } from './Header';
 import { SubmitResult } from './SubmitResult';
 import { ConnectWallet, Loader } from '.';
-import { hasAny, pickError } from 'useink/utils';
+import { hasAny, pickDecoded, pickError } from 'useink/utils';
 import { useEffect, useState } from 'react';
 import { decodeError } from 'useink/core';
+import { useWallet } from 'useink';
 
 export const FormContainer = () => {
-  const { waterDryRun, magink, start, getWater } = useLinkContract();
+  const { claimDryRun, magink, start, getRemaining, getRemainingFor, getBadgesFor } = useMaginkContract();
   const submitFn = useSubmitHandler();
+  const { account } = useWallet();
   const { showConnectWallet, setShowConnectWallet } = useUI();
-  const { water } = useLinkContract();
+  const { claim } = useMaginkContract();
   const [isAwake, setIsAwake] = useState(false);
-  const [waterLevel, setWaterLevel] = useState<number>(0);
+  const [waitingStartTx, setStartTx] = useState(false);
+  const [remainingBlocks, setRemainingBlocks] = useState<number>(0);
+  const [badges, setBadges] = useState<number>(0);
 
   var runtimeError: any; // TODO check this
 
   useEffect(() => {
     const interval = setInterval(async () => {
       if (!isAwake) return;
-
-      const waterStatus = await getWater?.send([], { defaultCaller: true });
-      console.log('##### getWater value', waterStatus?.ok && waterStatus.value.decoded);
-
-      if (waterStatus?.ok && waterStatus.value.decoded) {
-        // setTxMessage("Read plant health: " + waterStatus?.value?.decoded);
-        setWaterLevel(waterStatus.value.decoded);
+      //get remaining blocks until next claim
+      const remaining = await getRemainingFor?.send([account?.address], { defaultCaller: true});
+      console.log('##### getRemaining value', remaining?.ok && remaining.value.decoded);
+      if (remaining?.ok && remaining.value.decoded) {
+        setRemainingBlocks(remaining.value.decoded);
       }
 
-      runtimeError = pickError(getWater?.result);
+      const badges = await getBadgesFor?.send([account?.address], { defaultCaller: true});
+      console.log('##### badges count', badges?.ok && badges.value.decoded);
+      if (badges?.ok && badges.value.decoded) {
+        setBadges(badges.value.decoded);
+      }
+
+      runtimeError = pickError(getRemaining?.result);
       if (runtimeError != undefined) {
-        console.log('Form getWater runtimeError', runtimeError);
+        console.log('Form getRemaining runtimeError', runtimeError);
       }
     }, 5000);
     return () => clearInterval(interval);
-  }, [isAwake]);
+  }, [isAwake, badges, remainingBlocks]);
 
-  const awakeTamagotchi = async () => {
-    console.log('awakeTamagotchi');
-    setIsAwake(true);
+  const readBadges = async () => {
+    console.log('##### getBadgesFor add', account?.address);
+    const badges = await getBadgesFor?.send([account?.address], { defaultCaller: true});
+    console.log('##### getBadgesFor value', badges?.ok && badges.value.decoded);
+    if (badges?.ok && badges.value.decoded) {
+      setBadges(badges.value.decoded);
+      if (badges.value.decoded == 0) {
+        startMagink();
+      }
+      else {
+        setIsAwake(true);
+      }
+    }
+  };
 
+  const startMagink = async () => {
+    console.log('startMagink');
     const startArgs = [initialValues.blocksToLive];
     const options = undefined;
-    // setTxMessage('Sign awaking transaction');
-    start?.signAndSend(startArgs, options, (result, _api, error) => {
+    setStartTx(true);
+    start?.signAndSend(startArgs, options, (result: any, _api: any, error: any) => {
       if (error) {
         console.error(JSON.stringify(error));
       }
       console.log('result', result);
-      if (result?.status) {
-        // setTxMessage('Transaction status: ' + result?.status.type);
-      }
-      if (result?.status.isInBlock) {
-        console.log('invoke checkLevel');
-        //checkLevel();
-      }
       const dispatchError = start.result?.dispatchError;
+
+      if (!result?.status.isInBlock) return;
+      setIsAwake(true);
 
       if (dispatchError && magink?.contract) {
         const errorMessage = decodeError(dispatchError, magink, undefined, 'Something went wrong');
         console.log('errorMessage', errorMessage);
       }
     });
+    setStartTx(false);
+
   };
 
   return (
@@ -79,8 +98,8 @@ export const FormContainer = () => {
         }}
       >
         {({ status: { finalized, events, slug, errorMessage } = {}, isSubmitting }) => {
-          return isSubmitting && water && !hasAny(water, 'PendingSignature', 'None') ? (
-            <Loader message="Submitting transaction..." />
+          return isSubmitting && claim && !hasAny(claim, 'PendingSignature', 'None') ? (
+            <Loader message="Claiming your badge..." />
           ) : (
             <>
               <Header />
@@ -88,14 +107,16 @@ export const FormContainer = () => {
                 <div className="form-panel">
                   {/* <img src={linkLogo} className="link-logo" alt="logo" />{" "} */}
                   <h2>Magink!</h2>
-                  <br/>
+                  <br />
                   {finalized ? (
-                    <SubmitResult events={events} slug={slug} errorMessage={errorMessage} />
+                    <SubmitResult events={events} errorMessage={errorMessage} />
                   ) : (
-                    <UrlShortenerForm
-                      awake={awakeTamagotchi}
+                    <MaginkForm
+                      awake={readBadges}
                       isAwake={isAwake}
-                      waterLevel={waterLevel}
+                      isStarting={waitingStartTx}
+                      badges={badges}
+                      remainingBlocks={remainingBlocks}
                       runtimeError={runtimeError}
                     />
                   )}

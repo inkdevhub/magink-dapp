@@ -6,23 +6,14 @@ import { useEffect, useState } from "react";
 import { Button } from "./Button";
 
 interface Props {
-  slug: string;
   events: UIEvent[];
   errorMessage: string;
 }
 
-export const SubmitResult = ({ slug, events, errorMessage }: Props) => {
+export const SubmitResult = ({ events, errorMessage }: Props) => {
   const [submitOutcome, setSubmitOutcome] = useState("");
   useEffect(() => {
     events.forEach((e) => {
-      if (e.name === "Shortened") {
-        setSubmitOutcome("Your link was shortened to the following url:");
-      }
-      if (e.name === "Deduplicated") {
-        setSubmitOutcome(
-          "We already have a mapping for your URL. The existing slug will be used."
-        );
-      }
       if (e.name === "system:ExtrinsicFailed") {
         setSubmitOutcome(
           "The transaction was not successful. Try again with another slug."
@@ -35,9 +26,7 @@ export const SubmitResult = ({ slug, events, errorMessage }: Props) => {
     <>
       <div className="submit-outcome">
         <div className="mb-3">{submitOutcome}</div>
-        {slug && (
-          <Link to={`/${slug}`}>{`${window.location.host}/${slug}`}</Link>
-        )}
+
       </div>
 
       <react.Disclosure>
@@ -86,7 +75,7 @@ export const SubmitResult = ({ slug, events, errorMessage }: Props) => {
       )}
       <div>
         <Button onClick={() => window.location.reload()}>
-          Shorten another
+          Continue Learning
         </Button>
       </div>
     </>
