@@ -13,54 +13,69 @@ import { DryRunResult } from './DryRunResult';
 interface Props {
   awake: () => void;
   isAwake: boolean;
+  isStarting: boolean;
   badges: number;
   remainingBlocks: number;
   runtimeError?: any;
 }
 
-export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badges }: Props) => {
+export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtimeError, badges }: Props) => {
   const { isSubmitting, isValid, values, setFieldTouched, handleChange } = useFormikContext<Values>();
   const { claimDryRun, magink, start, getRemaining } = useMaginkContract();
   const { account } = useWallet();
   const { setShowConnectWallet } = useUI();
 
-  if (runtimeError != undefined) {  
+  if (runtimeError != undefined) {
     console.log('----------------Form getRemaining runtimeError', runtimeError);
   }
   return (
     <Form>
-      <div className="group">
         {account && !isAwake && (
-          <Button type="button" disabled={isSubmitting || !isValid} onClick={awake}>
+          <Button type="button" disabled={isSubmitting || !isValid || isStarting} onClick={awake}>
             Start
           </Button>
         )}
-      </div>
+      {isStarting && (
+        <div className="animate-pulse text-lg font-semibold mt-6">
+          Starting smart contract... please wait
+        </div>
+      )}
 
-      <div className="group">
-        Claim a new badge after {" "}{remainingBlocks}{" "} blocks
-      </div>
+      {remainingBlocks != 0 && isAwake && (
+        <div className="group">
+          Claim a new badge after {remainingBlocks} blocks
+        </div>
+      )}
+      {remainingBlocks === 0 && isAwake && (
+        <div className="group">
+          Claim the new badge Now<p />
+        </div>)
+      }
 
       {/* <div className="group">
         {isValid && <DryRunResult values={values} />}
       </div> */}
 
       <div className="group">
-        {account ? (
-          <Button
-            type="submit"
-            disabled={isSubmitting || !isValid}
-          >
-            Claim badge
-          </Button>
-        ) : (
+        {account && isAwake && (
+          <>
+            <Button
+              type="submit"
+              disabled={isSubmitting || !isValid || remainingBlocks != 0}
+            >
+              Claim badge
+            </Button>
+          </>
+        )}
+        {!account && (
           <Button type="button" onClick={() => setShowConnectWallet(true)}>
             Connect Wallet
           </Button>
         )}
       </div>
-      <Gallery level={badges}/>
-
+      {account && isAwake && (
+        <Gallery level={badges} />
+      )}
       {runtimeError && magink && (
         <div className="text-xs text-left mb-2 text-red-500">
           {pickDecodedError(
