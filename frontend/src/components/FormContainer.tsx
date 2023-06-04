@@ -9,7 +9,7 @@ import { ConnectWallet, Loader } from '.';
 import { hasAny, pickDecoded, pickError } from 'useink/utils';
 import { useEffect, useState } from 'react';
 import { decodeError } from 'useink/core';
-import { useWallet } from 'useink';
+import { useBlockHeader, useWallet } from 'useink';
 
 export const FormContainer = () => {
   const { claimDryRun, magink, start, getRemaining, getRemainingFor, getBadgesFor } = useMaginkContract();
@@ -21,43 +21,44 @@ export const FormContainer = () => {
   const [waitingStartTx, setStartTx] = useState(false);
   const [remainingBlocks, setRemainingBlocks] = useState<number>(0);
   const [badges, setBadges] = useState<number>(0);
+  const block = useBlockHeader();
 
   var runtimeError: any; // TODO check this
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      if (!isAwake) return;
-      //get remaining blocks until next claim
-      const remaining = await getRemainingFor?.send([account?.address], { defaultCaller: true});
-      console.log('##### getRemaining value', remaining?.ok && remaining.value.decoded);
-      if (remaining?.ok && remaining.value.decoded) {
-        setRemainingBlocks(remaining.value.decoded);
-      }
+    checkBadges();   
+  }, [block]);
 
-      const badges = await getBadgesFor?.send([account?.address], { defaultCaller: true});
-      console.log('##### badges count', badges?.ok && badges.value.decoded);
-      if (badges?.ok && badges.value.decoded) {
-        setBadges(badges.value.decoded);
-      }
+  const checkBadges = async () => {
+    if (!isAwake) return;
+    //get remaining blocks until next claim
+    const remaining = await getRemainingFor?.send([account?.address], { defaultCaller: true });
+    console.log('##### getRemaining value', remaining?.ok && remaining.value.decoded);
+    if (remaining?.ok && remaining.value.decoded) {
+      setRemainingBlocks(remaining.value.decoded);
+    }
 
-      runtimeError = pickError(getRemaining?.result);
-      if (runtimeError != undefined) {
-        console.log('Form getRemaining runtimeError', runtimeError);
-      }
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isAwake, badges, remainingBlocks]);
+    const badges = await getBadgesFor?.send([account?.address], { defaultCaller: true });
+    console.log('##### badges count', badges?.ok && badges.value.decoded);
+    if (badges?.ok && badges.value.decoded) {
+      setBadges(badges.value.decoded);
+    }
+
+    runtimeError = pickError(getRemaining?.result);
+    if (runtimeError != undefined) {
+      console.log('Form getRemaining runtimeError', runtimeError);
+    }
+  };
 
   const readBadges = async () => {
     console.log('##### getBadgesFor add', account?.address);
-    const badges = await getBadgesFor?.send([account?.address], { defaultCaller: true});
+    const badges = await getBadgesFor?.send([account?.address], { defaultCaller: true });
     console.log('##### getBadgesFor value', badges?.ok && badges.value.decoded);
     if (badges?.ok && badges.value.decoded) {
       setBadges(badges.value.decoded);
       if (badges.value.decoded == 0) {
         startMagink();
-      }
-      else {
+      } else {
         setIsAwake(true);
       }
     }
@@ -84,7 +85,6 @@ export const FormContainer = () => {
       }
     });
     setStartTx(false);
-
   };
 
   return (
