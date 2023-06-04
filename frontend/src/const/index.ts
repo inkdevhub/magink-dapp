@@ -1,5 +1,4 @@
 import { Values } from "../types";
-import { pseudoRandomId } from "useink/utils";
 
 export const initialValues: Values = { blocksToLive: 2 };
 

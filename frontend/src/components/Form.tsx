@@ -6,7 +6,6 @@ import { pickDecodedError } from 'useink/utils';
 import { useWallet } from 'useink';
 import { Button } from './Button';
 import { Gallery } from './Gallery';
-import { astarFacts } from '../const';
 import InkFacts from './InkFacts';
 
 interface Props {
@@ -19,8 +18,8 @@ interface Props {
 }
 
 export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtimeError, badges }: Props) => {
-  const { isSubmitting, isValid, values, setFieldTouched, handleChange } = useFormikContext<Values>();
-  const { claimDryRun, magink, start, getRemaining } = useMaginkContract();
+  const { isSubmitting, isValid } = useFormikContext<Values>();
+  const { claimDryRun, magink } = useMaginkContract();
   const { account } = useWallet();
   const { setShowConnectWallet } = useUI();
 
