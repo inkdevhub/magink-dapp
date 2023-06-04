@@ -8,16 +8,17 @@ export const NewUserGuide = () => {
   return (
     <div className="text-xs text-gray-300 text-left">
       {account && !hasFunds && (
-        <p className="max-w-lg mx-auto">
-          Your account balance is zero. To obtain Rococo testnet tokens (ROC) use the{" "}
-            <a
-              href="https://use.ink/faucet"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-            Rococo Contracts Faucet
-            </a>.
-        </p>
+        <div className="mb-1">
+          <p className="mb-1">Account balance is zero.</p>
+          To obtain Shibuya testnet tokens (SBY) go to Astar portal{" "}
+          <a
+            href="https://portal.astar.network/shibuya-testnet/assets#/astar/assets"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Shibuya Faucet
+          </a>{" "}
+        </div>
       )}
     </div>
   );

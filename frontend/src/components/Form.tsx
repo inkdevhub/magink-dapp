@@ -7,6 +7,11 @@ import { pickDecodedError } from 'useink/utils';
 import { useWallet } from 'useink';
 import { Button } from './Button';
 import { Gallery } from './Gallery';
+<<<<<<< Updated upstream
+=======
+import { astarFacts } from '../const';
+import InkFacts from './InkFacts';
+>>>>>>> Stashed changes
 
 
 interface Props {
@@ -43,6 +48,7 @@ export const UrlShortenerForm = ({ awake, isAwake, waterLevel, runtimeError }: P
       </div> */}
 
       <div className="group">
+<<<<<<< Updated upstream
         {account ? (
 
           <Button
@@ -52,6 +58,21 @@ export const UrlShortenerForm = ({ awake, isAwake, waterLevel, runtimeError }: P
             Claim badge
           </Button>
         ) : (
+=======
+        {account && isAwake && (
+          <>
+            <InkFacts badges={badges} />
+            <br />
+            <Button
+              type="submit"
+              disabled={isSubmitting || !isValid || remainingBlocks != 0 || badges >= 9}
+            >
+              Claim badge
+            </Button>
+          </>
+        )}
+        {!account && (
+>>>>>>> Stashed changes
           <Button type="button" onClick={() => setShowConnectWallet(true)}>
             Connect Wallet
           </Button>

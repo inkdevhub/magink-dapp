@@ -1,6 +1,6 @@
 import { Button } from ".";
 import { useUI } from "../hooks";
-import logo from "../logo.svg";
+import logo from "../assets/logo.png";
 import { AccountsDropdown } from "./AccountsDropdown";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import { useWallet } from "useink";
