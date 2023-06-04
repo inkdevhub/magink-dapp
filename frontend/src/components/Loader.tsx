@@ -6,7 +6,7 @@ export const Loader = ({ message }: { message: string }) => {
       <div className="container">
         <img src={wizard} className="big-squid" alt="wizard" />
         <div className="text-info">
-          <h1>Astar Magink! School</h1>
+          <h1>Swanky Magink! School</h1>
           <div className="tag-line">
             <span>
             Lets's learn some magink! about the{" "}

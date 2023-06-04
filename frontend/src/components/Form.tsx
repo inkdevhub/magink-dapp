@@ -7,7 +7,7 @@ import { useWallet } from 'useink';
 import { Button } from './Button';
 import { Gallery } from './Gallery';
 import { astarFacts } from '../const';
-
+import InkFacts from './InkFacts';
 
 interface Props {
   awake: () => void;
@@ -47,7 +47,7 @@ export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtim
       <div className="group">
         {account && isAwake && (
           <>
-            <p>{astarFacts[badges]}</p>
+            <InkFacts badges={badges} />
             <br />
             <Button
               type="submit"

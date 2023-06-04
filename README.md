@@ -1,4 +1,4 @@
-# Astar Magink! School <br/>
+# Swanky Magink! School <br/>
 <br clear="both"/>
 Collect magink! badges by learning some facts about ink! smart contract language and Astar Network. 
 

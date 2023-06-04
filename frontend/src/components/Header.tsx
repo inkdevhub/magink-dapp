@@ -1,6 +1,6 @@
 import { Button } from ".";
 import { useUI } from "../hooks";
-import logo from "../logo.svg";
+import logo from "../assets/logo.png";
 import { AccountsDropdown } from "./AccountsDropdown";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import { useWallet } from "useink";
@@ -12,7 +12,7 @@ export const Header = () => {
   return (
     <div className="flex justify-between w-full px-8 py-4">
       <div className="flex items-center justify-between w-full">
-        <img src={logo} className="ink-logo" alt="logo" />
+        <img src={logo} className="magink-logo" alt="logo" />
 
         {!account ? (
           <Button onClick={() => setShowConnectWallet(true)}>

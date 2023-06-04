@@ -3,7 +3,7 @@ import candle from "../assets/candle.png";
 import frog from "../assets/frog.png";
 import pot from "../assets/pot.png";
 import potionblue from "../assets/potionblue.png";
-import potion from "../assets/potion.png";
+// import potion from "../assets/potion.png";
 import hat from "../assets/hat.png";
 import crystals from "../assets/crystals.png";
 import crystalball from "../assets/crystalball.png";
@@ -33,7 +33,7 @@ export const Gallery = ({ level }: Props) => {
         <div>
             <br/>
             <hr/>
-            {gallery == 9 ? <h3 className="animate-pulse text-xs text-right mb-2 text-violet-500">Congratulations! You have completed the Astar Magink! School</h3>
+            {gallery == 9 ? <h3 className="animate-pulse text-xs text-right mb-2 text-violet-500">Congratulations! You have completed the Swanky Magink! School</h3>
             : <p className="text-xs text-right mb-2 text-violet-500">You earned {gallery} badges</p>}
             <div className="flex flex-wrap">
                 <GalleryItems />
