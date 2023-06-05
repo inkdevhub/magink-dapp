@@ -22,6 +22,8 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
   const { account } = useWallet();
   const { setShowConnectWallet } = useUI();
 
+  const isFirtsClaim = badges == 0;
+
   if (runtimeError != undefined) {
     console.log('----------------Form getRemaining runtimeError', runtimeError);
   }
@@ -40,7 +42,7 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
             <br />
             <Button
               type="submit"
-              disabled={isSubmitting || !isValid || remainingBlocks != 0 || badges >= 9}
+              disabled={isSubmitting || !isValid || (remainingBlocks != 0 && !isFirtsClaim) || badges >= 9}
             >
               Claim badge
             </Button>
@@ -52,7 +54,7 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
           </Button>
         )}
       </div>
-      {remainingBlocks != 0 && isAwake && badges <= 9 &&(
+      {remainingBlocks != 0 && isAwake && badges <= 9 && !isFirtsClaim && (
         <div className="text-xs text-left mb-2 text-gray-200">
           Claim a new badge after {remainingBlocks} blocks
         </div>
