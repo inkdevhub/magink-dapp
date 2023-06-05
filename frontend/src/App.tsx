@@ -11,6 +11,7 @@ function App() {
   return (
     <Routes>
       <Route index element={<FormContainer />} />
+      <Route path="/magink-dapp" element={<FormContainer />} />
     </Routes>
   );
 }
