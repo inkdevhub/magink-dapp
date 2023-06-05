@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/magink-dapp/static/css/main.2847bc17.css",
+    "main.js": "/magink-dapp/static/js/main.361d9392.js",
+    "static/media/book.png": "/magink-dapp/static/media/book.57065a022d1a9c1c14db.png",
+    "static/media/pot.png": "/magink-dapp/static/media/pot.6daa6e3736bd3dfac20b.png",
+    "static/media/wizard.png": "/magink-dapp/static/media/wizard.b88e5107a15ea764362c.png",
+    "static/media/crystals.png": "/magink-dapp/static/media/crystals.3dc8f2a47608db3d263d.png",
+    "static/media/candle.png": "/magink-dapp/static/media/candle.1fd343f0ebf478481c15.png",
+    "static/media/crystalball.png": "/magink-dapp/static/media/crystalball.353bd63259a4cfdb6298.png",
+    "static/media/frog.png": "/magink-dapp/static/media/frog.aa5ad1c59ff7e773db5b.png",
+    "static/media/logo.png": "/magink-dapp/static/media/logo.eb6a9f67775302c99931.png",
+    "static/media/crow.png": "/magink-dapp/static/media/crow.0c3764bb6f4f18e422fd.png",
+    "static/media/hat.png": "/magink-dapp/static/media/hat.973ec3e70c8946c31d0e.png",
+    "static/media/potionblue.png": "/magink-dapp/static/media/potionblue.3f4a075f1057bfd2f967.png",
+    "index.html": "/magink-dapp/index.html",
+    "main.2847bc17.css.map": "/magink-dapp/static/css/main.2847bc17.css.map",
+    "main.361d9392.js.map": "/magink-dapp/static/js/main.361d9392.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2847bc17.css",
+    "static/js/main.361d9392.js"
+  ]
+}
