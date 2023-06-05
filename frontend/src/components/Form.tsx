@@ -30,9 +30,13 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
   return (
     <Form>
       {account && !isAwake && (
+        <>
+        <p>Press Start for 10 short lessons about ink! and Astar Network</p>
+        <br/>
         <Button type="button" disabled={isSubmitting || !isValid} onClick={awake}>
           Start
         </Button>
+        </>
       )}
 
       <div className="group">
