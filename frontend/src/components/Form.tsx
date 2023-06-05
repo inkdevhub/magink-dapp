@@ -11,13 +11,12 @@ import InkFacts from './InkFacts';
 interface Props {
   awake: () => void;
   isAwake: boolean;
-  isStarting: boolean;
   badges: number;
   remainingBlocks: number;
   runtimeError?: any;
 }
 
-export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtimeError, badges }: Props) => {
+export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badges }: Props) => {
   const { isSubmitting, isValid } = useFormikContext<Values>();
   const { claimDryRun, magink } = useMaginkContract();
   const { account } = useWallet();
@@ -29,19 +28,10 @@ export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtim
   return (
     <Form>
       {account && !isAwake && (
-        <Button type="button" disabled={isSubmitting || !isValid || isStarting} onClick={awake}>
+        <Button type="button" disabled={isSubmitting || !isValid} onClick={awake}>
           Start
         </Button>
       )}
-      {isStarting && (
-        <div className="animate-pulse text-lg font-semibold mt-6">
-          Starting smart contract... please wait
-        </div>
-      )}
-
-      {/* <div className="group">
-        {isValid && <DryRunResult values={values} />}
-      </div> */}
 
       <div className="group">
         {account && isAwake && (

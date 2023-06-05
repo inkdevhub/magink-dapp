@@ -16,7 +16,7 @@ export const SubmitResult = ({ events, errorMessage }: Props) => {
     events.forEach((e) => {
       if (e.name === "system:ExtrinsicFailed") {
         setSubmitOutcome(
-          "The transaction was not successful. Try again with another slug."
+          "The transaction was not successful. Try again."
         );
       }
     });

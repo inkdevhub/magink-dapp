@@ -18,7 +18,7 @@ export const FormContainer = () => {
   const { showConnectWallet, setShowConnectWallet } = useUI();
   const { claim } = useMaginkContract();
   const [isAwake, setIsAwake] = useState(false);
-  const [waitingStartTx, setStartTx] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
   const [remainingBlocks, setRemainingBlocks] = useState<number>(0);
   const [badges, setBadges] = useState<number>(0);
   const block = useBlockHeader();
@@ -26,14 +26,14 @@ export const FormContainer = () => {
   var runtimeError: any; // TODO check this
 
   useEffect(() => {
-    checkBadges();   
+    checkBadges();
   }, [block]);
 
   const checkBadges = async () => {
     if (!isAwake) return;
     //get remaining blocks until next claim
     const remaining = await getRemainingFor?.send([account?.address], { defaultCaller: true });
-    console.log('##### getRemaining value', remaining?.ok && remaining.value.decoded);
+    console.log('##### blocks until claim', remaining?.ok && remaining.value.decoded);
     if (remaining?.ok && remaining.value.decoded) {
       setRemainingBlocks(remaining.value.decoded);
     }
@@ -68,7 +68,7 @@ export const FormContainer = () => {
     console.log('startMagink');
     const startArgs = [initialValues.blocksToLive];
     const options = undefined;
-    setStartTx(true);
+    setIsStarting(true);
     start?.signAndSend(startArgs, options, (result: any, _api: any, error: any) => {
       if (error) {
         console.error(JSON.stringify(error));
@@ -77,14 +77,14 @@ export const FormContainer = () => {
       const dispatchError = start.result?.dispatchError;
 
       if (!result?.status.isInBlock) return;
-      setIsAwake(true);
 
       if (dispatchError && magink?.contract) {
         const errorMessage = decodeError(dispatchError, magink, undefined, 'Something went wrong');
         console.log('errorMessage', errorMessage);
       }
+      setIsAwake(true);
+      setIsStarting(false);
     });
-    setStartTx(false);
   };
 
   return (
@@ -97,31 +97,34 @@ export const FormContainer = () => {
           submitFn(values, helpers);
         }}
       >
-        {({ status: { finalized, events, slug, errorMessage } = {}, isSubmitting }) => {
+        {({ status: { finalized, events, errorMessage } = {}, isSubmitting }) => {
           return isSubmitting && claim && !hasAny(claim, 'PendingSignature', 'None') ? (
             <Loader message="Claiming your badge..." />
           ) : (
             <>
-              <Header />
-              <div className="content">
-                <div className="form-panel">
-                  {/* <img src={linkLogo} className="link-logo" alt="logo" />{" "} */}
-                  <h2>Magink!</h2>
-                  <br />
-                  {finalized ? (
-                    <SubmitResult events={events} errorMessage={errorMessage} />
-                  ) : (
-                    <MaginkForm
-                      awake={readBadges}
-                      isAwake={isAwake}
-                      isStarting={waitingStartTx}
-                      badges={badges}
-                      remainingBlocks={remainingBlocks}
-                      runtimeError={runtimeError}
-                    />
-                  )}
-                </div>
-              </div>
+              {isStarting && (<Loader message="Initializing app for new user..." />)}
+              {!isStarting && (
+                <>
+                  <Header />
+                  <div className="content">
+                    <div className="form-panel">
+                      {/* <img src={linkLogo} className="link-logo" alt="logo" />{" "} */}
+                      <h2>Magink!</h2>
+                      <br />
+                      {finalized ? (
+                        <SubmitResult events={events} errorMessage={errorMessage} />
+                      ) : (
+                        <MaginkForm
+                          awake={readBadges}
+                          isAwake={isAwake}
+                          badges={badges}
+                          remainingBlocks={remainingBlocks}
+                          runtimeError={runtimeError}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </>)}
             </>
           );
         }}
