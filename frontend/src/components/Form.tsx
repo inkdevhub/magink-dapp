@@ -7,6 +7,7 @@ import { useWallet } from 'useink';
 import { Button } from './Button';
 import { Gallery } from './Gallery';
 import InkFacts from './InkFacts';
+import wizard from '../assets/wizard.png';
 
 interface Props {
   awake: () => void;
@@ -31,7 +32,7 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
     <Form>
       {account && !isAwake && (
         <>
-        <p>Press Start for 10 short lessons about ink! and Astar Network</p>
+        <p>Press Start for ten swanky lessons about ink! and Astar Network</p>
         <br/>
         <Button type="button" disabled={isSubmitting || !isValid} onClick={awake}>
           Start

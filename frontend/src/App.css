@@ -60,10 +60,13 @@ a {
 
 .wizard{
   position: absolute;
-  width:200px;
-  left:60%;
+  width:300px;
+  left:45%;
   opacity: 0.5;
   animation: hovering 4s infinite alternate;
+}
+.wizard-small{
+  width:50px;
 }
 
 @keyframes rise{
@@ -91,7 +94,7 @@ a {
 
 .text-info {
   @apply flex flex-col relative pb-5 ml-32 self-center z-10;
-  max-width: 480px;
+  max-width: 600px;
 }
 
 h1 {
