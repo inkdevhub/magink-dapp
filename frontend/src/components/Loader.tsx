@@ -4,7 +4,7 @@ export const Loader = ({ message }: { message: string }) => {
   return (
     <div className="overflow-hidden">
       <div className="container">
-        <img src={wizard} className="big-squid" alt="wizard" />
+        <img src={wizard} className="wizard" alt="wizard" />
         <div className="text-info">
           <h1>Swanky Magink! School</h1>
           <div className="tag-line">

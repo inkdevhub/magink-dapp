@@ -7,21 +7,23 @@ import { useWallet } from 'useink';
 import { Button } from './Button';
 import { Gallery } from './Gallery';
 import InkFacts from './InkFacts';
+import wizard from '../assets/wizard.png';
 
 interface Props {
   awake: () => void;
   isAwake: boolean;
-  isStarting: boolean;
   badges: number;
   remainingBlocks: number;
   runtimeError?: any;
 }
 
-export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtimeError, badges }: Props) => {
+export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badges }: Props) => {
   const { isSubmitting, isValid } = useFormikContext<Values>();
   const { claimDryRun, magink } = useMaginkContract();
   const { account } = useWallet();
   const { setShowConnectWallet } = useUI();
+
+  const isFirtsClaim = badges == 0;
 
   if (runtimeError != undefined) {
     console.log('----------------Form getRemaining runtimeError', runtimeError);
@@ -29,19 +31,14 @@ export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtim
   return (
     <Form>
       {account && !isAwake && (
-        <Button type="button" disabled={isSubmitting || !isValid || isStarting} onClick={awake}>
+        <>
+        <p>Press Start for ten swanky lessons about ink! and Astar Network</p>
+        <br/>
+        <Button type="button" disabled={isSubmitting || !isValid} onClick={awake}>
           Start
         </Button>
+        </>
       )}
-      {isStarting && (
-        <div className="animate-pulse text-lg font-semibold mt-6">
-          Starting smart contract... please wait
-        </div>
-      )}
-
-      {/* <div className="group">
-        {isValid && <DryRunResult values={values} />}
-      </div> */}
 
       <div className="group">
         {account && isAwake && (
@@ -50,7 +47,7 @@ export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtim
             <br />
             <Button
               type="submit"
-              disabled={isSubmitting || !isValid || remainingBlocks != 0 || badges >= 9}
+              disabled={isSubmitting || !isValid || (remainingBlocks != 0 && !isFirtsClaim) || badges >= 9}
             >
               Claim badge
             </Button>
@@ -62,7 +59,7 @@ export const MaginkForm = ({ awake, isAwake, isStarting, remainingBlocks, runtim
           </Button>
         )}
       </div>
-      {remainingBlocks != 0 && isAwake && badges <= 9 &&(
+      {remainingBlocks != 0 && isAwake && badges <= 9 && !isFirtsClaim && (
         <div className="text-xs text-left mb-2 text-gray-200">
           Claim a new badge after {remainingBlocks} blocks
         </div>
