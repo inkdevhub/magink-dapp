@@ -7,6 +7,7 @@ import { useWallet } from 'useink';
 import { Button } from './Button';
 import { Gallery } from './Gallery';
 import InkFacts from './InkFacts';
+import wizard from '../assets/wizard.png';
 
 interface Props {
   awake: () => void;
@@ -22,9 +23,9 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
   const { account } = useWallet();
   const { setShowConnectWallet } = useUI();
 
-  const isFirtsClaim = badges === 0;
+  const isFirtsClaim = badges == 0;
 
-  if (runtimeError !== undefined) {
+  if (runtimeError != undefined) {
     console.log('----------------Form getRemaining runtimeError', runtimeError);
   }
   return (
@@ -46,7 +47,7 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
             <br />
             <Button
               type="submit"
-              disabled={isSubmitting || !isValid || (remainingBlocks !== 0 && !isFirtsClaim) || badges >= 9}
+              disabled={isSubmitting || !isValid || (remainingBlocks != 0 && !isFirtsClaim) || badges >= 9}
             >
               Claim badge
             </Button>
@@ -58,7 +59,7 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
           </Button>
         )}
       </div>
-      {remainingBlocks !== 0 && isAwake && badges <= 9 && !isFirtsClaim && (
+      {remainingBlocks != 0 && isAwake && badges <= 9 && !isFirtsClaim && (
         <div className="text-xs text-left mb-2 text-gray-200">
           Claim a new badge after {remainingBlocks} blocks
         </div>

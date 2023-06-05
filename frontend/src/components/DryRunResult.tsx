@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { Values } from "../types";
 import { useMaginkContract } from "../hooks";
-import { pickTxInfo } from "useink/utils";
+import { pickDecoded, pickTxInfo } from "useink/utils";
 
 interface Props {
   values: Values;
@@ -31,8 +32,10 @@ export function DryRunResult({ values }: Props) {
 
   if (!startDryRun?.result) return null;
 
+  const decoded = pickDecoded(startDryRun?.result);
   const txInfo = pickTxInfo(startDryRun?.result);
-  
+  // console.log("decoded", decoded)
+  // console.log("txInfo", txInfo)
   return (
       <div>
         <p>storage deposit: {txInfo ? txInfo.storageDeposit.asCharge.toHuman() : '--'}</p>
