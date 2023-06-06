@@ -3,11 +3,10 @@ import { Values } from '../types';
 import { NewUserGuide } from './NewUserGuide';
 import { useMaginkContract, useUI } from '../hooks';
 import { pickDecodedError } from 'useink/utils';
-import { useWallet } from 'useink';
+import { useBalance, useWallet } from 'useink';
 import { Button } from './Button';
 import { Gallery } from './Gallery';
 import InkFacts from './InkFacts';
-import wizard from '../assets/wizard.png';
 
 interface Props {
   awake: () => void;
@@ -22,6 +21,8 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
   const { claimDryRun, magink } = useMaginkContract();
   const { account } = useWallet();
   const { setShowConnectWallet } = useUI();
+  const balance = useBalance(account);
+  const hasFunds = !balance?.freeBalance.isEmpty && !balance?.freeBalance.isZero();
 
   const isFirtsClaim = badges == 0;
 
@@ -34,7 +35,8 @@ export const MaginkForm = ({ awake, isAwake, remainingBlocks, runtimeError, badg
         <>
         <p>Press Start for ten swanky lessons about ink! and Astar Network</p>
         <br/>
-        <Button type="button" disabled={isSubmitting || !isValid} onClick={awake}>
+        <Button type="button"
+          disabled={isSubmitting || !isValid || !hasFunds } onClick={awake}>
           Start
         </Button>
         </>

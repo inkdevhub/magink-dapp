@@ -1,4 +1,3 @@
-import linkLogo from '../link-logo.svg';
 import { Formik } from 'formik';
 import { initialValues } from '../const';
 import { useMaginkContract, useSubmitHandler, useUI } from '../hooks';
@@ -6,13 +5,13 @@ import { MaginkForm } from './Form';
 import { Header } from './Header';
 import { SubmitResult } from './SubmitResult';
 import { ConnectWallet, Loader } from '.';
-import { hasAny, pickDecoded, pickError } from 'useink/utils';
+import { hasAny, pickError } from 'useink/utils';
 import { useEffect, useState } from 'react';
 import { decodeError } from 'useink/core';
 import { useBlockHeader, useWallet } from 'useink';
 
 export const FormContainer = () => {
-  const { claimDryRun, magink, start, getRemaining, getRemainingFor, getBadgesFor } = useMaginkContract();
+  const { magink, start, getRemaining, getRemainingFor, getBadgesFor } = useMaginkContract();
   const submitFn = useSubmitHandler();
   const { account } = useWallet();
   const { showConnectWallet, setShowConnectWallet } = useUI();
