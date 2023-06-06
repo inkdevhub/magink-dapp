@@ -1,4 +1,5 @@
 # Swanky Magink! School <br/>
+![swanky school](https://github.com/swanky-dapps/magink-dapp/assets/34627453/107adca8-3c94-4d5c-8bce-4a0d7c7d1f7f)
 [![workflow][a1]][a2] [![stack-exchange][s1]][s2] [![discord][d1]][d2] [![built-with-ink][i1]][i2] [![License][ap1]][ap2]
 
 [s1]: https://img.shields.io/badge/click-white.svg?logo=StackExchange&label=ink!%20Support%20on%20StackExchange&labelColor=white&color=blue
@@ -11,6 +12,8 @@
 [i2]: https://github.com/paritytech/ink
 [ap1]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
 [ap2]: https://opensource.org/licenses/Apache-2.0
+
+<br clear="both"/>
 
 This is an example dApp using `ink!` smart contract and `useink` React library. It has 2 purposes:
 1. This is the template dApp with the task for developers on how to extend it.
