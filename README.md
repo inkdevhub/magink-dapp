@@ -28,7 +28,7 @@ If you are dApp developer, here is the idea on how you can extend this dApp. You
 
 ### What should be used
 - Shibuya testnet
-- ink! v4.2.0
+- ink! v4.2.1
 - ink! events
 - ink! end-to-end tests
 - ink! unittest
