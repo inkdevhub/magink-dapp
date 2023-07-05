@@ -42,7 +42,7 @@ If you are dApp developer, here is the idea on how you can extend this dApp. You
     - give a Star to the magink! repo :)
  
 - Create `wizard` PSP34 smart contract for Wizard-NFTs.
-    - Use ink! v4.2 with cargo-contract v3+
+    - Use ink! v4.2.1 with cargo-contract v3+
     - Use [Nft](https://docs.astar.network/docs/build/wasm/from-zero-to-ink-hero/nft/) tutorial to learn how to create and extend PSP34
     - Make as simple as possible PSP34 contract. No need for payment.
     - Wizard-NFT can only be minted by magink contract
@@ -52,7 +52,7 @@ If you are dApp developer, here is the idea on how you can extend this dApp. You
     - Total supply of NFTs is up to you, just like any other parameter or function you want to add. Feel free to use Shiden34 example, just update it to use ink-4.2
 
 ### Magink! smart contract
-- Use ink! 4.2 and cargo-contract v3+
+- Use ink! 4.2.1 and cargo-contract v3+
 - Extend `magink` contract to be able to mint Wizard-NFT
     - name the new function `mint_wizard` and within it make a cross contract call to `mint` in the wizard contract
     - This `mint_wizard` method can be called only if the user has collected all badges (or you can come up with your criteria)
