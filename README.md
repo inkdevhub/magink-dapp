@@ -19,7 +19,7 @@ This is an example dApp using `ink!` smart contract and `useink` React library. 
 1. This is the template dApp with the task for developers on how to extend it.
 2. Collect magink! badges by learning some facts about ink! smart contract language and Astar Network. 
 
-To better understand this dApp/task please play the [Swanky Magink! School](https://swanky-dapps.github.io/magink-dapp/) and collect all badges.
+To better understand this dApp/task please play the [Swanky Magink! School](https://swankyhub.github.io/magink-dapp/) and collect all badges.
 
 <br clear="both"/>
 
