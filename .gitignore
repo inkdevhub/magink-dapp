@@ -1,6 +1,5 @@
 # Ignore build artifacts from the local tests sub-crate.
 /target/
-yarn.lock
 .vscode
 
 # Ignore backup files creates by cargo fmt.
